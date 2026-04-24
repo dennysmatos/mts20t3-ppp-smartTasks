@@ -13,7 +13,20 @@ async function create(request, response, next) {
   }
 }
 
-module.exports = {
-  create
-};
+async function getAuthenticatedUser(request, response, next) {
+  try {
+    const user = await userService.getUserById(request.user.id);
 
+    return response.status(200).json({
+      message: "Authenticated user retrieved successfully",
+      data: user
+    });
+  } catch (error) {
+    return next(error);
+  }
+}
+
+module.exports = {
+  create,
+  getAuthenticatedUser
+};

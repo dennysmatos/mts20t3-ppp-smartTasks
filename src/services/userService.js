@@ -34,7 +34,27 @@ async function createUser(payload) {
   };
 }
 
-module.exports = {
-  createUser
-};
+async function getUserById(userId) {
+  const user = await userRepository.findById(userId);
 
+  if (!user) {
+    throw new AppError("User not found", 404);
+  }
+
+  return sanitizeUser(user);
+}
+
+function sanitizeUser(user) {
+  return {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    createdAt: user.createdAt,
+    updatedAt: user.updatedAt
+  };
+}
+
+module.exports = {
+  createUser,
+  getUserById
+};

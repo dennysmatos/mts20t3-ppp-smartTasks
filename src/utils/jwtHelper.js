@@ -1,7 +1,8 @@
 const jwt = require("jsonwebtoken");
+const env = require("../config/env");
 
-const JWT_SECRET = process.env.JWT_SECRET || "task-manager-secret";
-const JWT_EXPIRES_IN = "1h";
+const JWT_SECRET = env.jwtSecret;
+const JWT_EXPIRES_IN = env.jwtExpiresIn;
 
 function generateToken(payload) {
   return jwt.sign(payload, JWT_SECRET, {
@@ -16,6 +17,6 @@ function verifyToken(token) {
 module.exports = {
   generateToken,
   JWT_SECRET,
+  JWT_EXPIRES_IN,
   verifyToken
 };
-

@@ -7,12 +7,33 @@ const options = {
     info: {
       title: "Task Manager API",
       version: "1.0.0",
-      description: "REST API for task management with JWT authentication."
+      description: "REST API for task management with JWT authentication.",
+      contact: {
+        name: "Dennys Matos"
+      }
     },
     servers: [
       {
         url: "http://localhost:3000",
         description: "Local environment"
+      }
+    ],
+    tags: [
+      {
+        name: "Health",
+        description: "API availability"
+      },
+      {
+        name: "Users",
+        description: "User registration"
+      },
+      {
+        name: "Authentication",
+        description: "Login and token issuance"
+      },
+      {
+        name: "Tasks",
+        description: "Protected task management endpoints"
       }
     ],
     components: {

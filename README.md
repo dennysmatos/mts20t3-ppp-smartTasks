@@ -1,5 +1,7 @@
 # Task Manager API
 
+[![CI](https://github.com/dennysmatos/mts20t3-ppp-smartTasks/actions/workflows/ci.yml/badge.svg)](https://github.com/dennysmatos/mts20t3-ppp-smartTasks/actions/workflows/ci.yml)
+
 REST API built as a QA portfolio project to demonstrate API testing, authentication, clean architecture, and software quality practices.
 
 ## Objectives
@@ -30,6 +32,15 @@ REST API built as a QA portfolio project to demonstrate API testing, authenticat
 - ownership-based authorization
 - centralized error responses
 - Swagger documentation
+- GitHub Actions CI pipeline
+
+## Quality highlights
+
+- integration tests for positive, negative, and edge-case scenarios
+- explicit validation for malformed payloads and unknown fields
+- authorization behavior designed to avoid resource enumeration
+- OpenAPI documentation available through Swagger UI
+- commit and branch history organized by delivery step
 
 ## Project structure
 
@@ -106,6 +117,10 @@ After starting the server, access:
 - Swagger UI: `http://localhost:3000/docs`
 - OpenAPI JSON: `http://localhost:3000/docs.json`
 
+Public repository:
+
+- GitHub repository: `https://github.com/dennysmatos/mts20t3-ppp-smartTasks`
+
 ## Current endpoints
 
 ### Health
@@ -147,6 +162,14 @@ The repository includes a GitHub Actions workflow that:
 - runs the automated test suite with `npm test`
 - executes on pushes to `main`, `master`, and `codex/**`
 - executes on pull requests targeting `main` or `master`
+
+## Suggested review flow
+
+1. Create a feature branch from `main`
+2. Implement the change with focused commits
+3. Run `npm test`
+4. Open a pull request and wait for the CI workflow
+5. Merge only after the pipeline is green
 
 ## Important limitation
 

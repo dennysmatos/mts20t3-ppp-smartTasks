@@ -62,6 +62,31 @@ router.use(authMiddleware);
  *         schema:
  *           type: string
  *         description: Search by title or description
+ *       - in: query
+ *         name: sortBy
+ *         schema:
+ *           type: string
+ *           enum: [createdAt, updatedAt, title]
+ *         description: Field used for sorting
+ *       - in: query
+ *         name: order
+ *         schema:
+ *           type: string
+ *           enum: [asc, desc]
+ *         description: Sort direction
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *         description: Page number
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           maximum: 100
+ *         description: Number of items per page
  *     responses:
  *       200:
  *         description: Tasks retrieved successfully

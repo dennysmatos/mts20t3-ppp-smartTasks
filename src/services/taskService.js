@@ -26,8 +26,12 @@ async function listTasksByUserId(userId, filters = {}) {
   const tasks = await taskRepository.findByUserId(userId);
   const normalizedStatus = typeof filters.status === "string" ? filters.status.trim() : "";
   const normalizedSearch = typeof filters.search === "string" ? filters.search.trim().toLowerCase() : "";
+  const sortBy = typeof filters.sortBy === "string" ? filters.sortBy.trim() : "createdAt";
+  const order = typeof filters.order === "string" ? filters.order.trim() : "desc";
+  const page = Number.isInteger(Number(filters.page)) ? Number(filters.page) : 1;
+  const limit = Number.isInteger(Number(filters.limit)) ? Number(filters.limit) : tasks.length || 10;
 
-  return tasks.filter((task) => {
+  const filteredTasks = tasks.filter((task) => {
     const matchesStatus = !normalizedStatus || task.status === normalizedStatus;
     const matchesSearch =
       !normalizedSearch ||
@@ -36,6 +40,11 @@ async function listTasksByUserId(userId, filters = {}) {
 
     return matchesStatus && matchesSearch;
   });
+
+  const sortedTasks = sortTasks(filteredTasks, sortBy, order);
+  const pagination = paginateTasks(sortedTasks, page, limit);
+
+  return pagination;
 }
 
 async function getTaskById(userId, taskId) {
@@ -84,6 +93,47 @@ function normalizePayload(payload) {
   }
 
   return normalizedPayload;
+}
+
+function sortTasks(tasks, sortBy, order) {
+  const direction = order === "asc" ? 1 : -1;
+
+  return [...tasks].sort((firstTask, secondTask) => {
+    let firstValue = firstTask[sortBy];
+    let secondValue = secondTask[sortBy];
+
+    if (sortBy === "title") {
+      firstValue = firstValue.toLowerCase();
+      secondValue = secondValue.toLowerCase();
+    }
+
+    if (firstValue < secondValue) {
+      return -1 * direction;
+    }
+
+    if (firstValue > secondValue) {
+      return 1 * direction;
+    }
+
+    return 0;
+  });
+}
+
+function paginateTasks(tasks, page, limit) {
+  const totalItems = tasks.length;
+  const totalPages = totalItems === 0 ? 0 : Math.ceil(totalItems / limit);
+  const startIndex = (page - 1) * limit;
+  const data = tasks.slice(startIndex, startIndex + limit);
+
+  return {
+    data,
+    meta: {
+      page,
+      limit,
+      totalItems,
+      totalPages
+    }
+  };
 }
 
 module.exports = {

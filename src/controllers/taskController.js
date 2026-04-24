@@ -15,11 +15,12 @@ async function create(request, response, next) {
 
 async function list(request, response, next) {
   try {
-    const tasks = await taskService.listTasksByUserId(request.user.id, request.query);
+    const result = await taskService.listTasksByUserId(request.user.id, request.query);
 
     return response.status(200).json({
       message: "Tasks retrieved successfully",
-      data: tasks
+      data: result.data,
+      meta: result.meta
     });
   } catch (error) {
     return next(error);

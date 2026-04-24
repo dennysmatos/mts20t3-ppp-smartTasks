@@ -136,6 +136,12 @@ describe("Tasks routes", () => {
       expect(response.status).to.equal(200);
       expect(response.body.message).to.equal("Tasks retrieved successfully");
       expect(response.body.data).to.have.lengthOf(1);
+      expect(response.body.meta).to.deep.equal({
+        page: 1,
+        limit: 1,
+        totalItems: 1,
+        totalPages: 1
+      });
       expect(response.body.data[0]).to.include({
         title: "Maria task",
         description: "Owned by Maria",
@@ -170,6 +176,7 @@ describe("Tasks routes", () => {
 
       expect(response.status).to.equal(200);
       expect(response.body.data).to.have.lengthOf(1);
+      expect(response.body.meta.totalItems).to.equal(1);
       expect(response.body.data[0]).to.include({
         title: "Done task",
         status: "done"
@@ -203,6 +210,7 @@ describe("Tasks routes", () => {
 
       expect(response.status).to.equal(200);
       expect(response.body.data).to.have.lengthOf(1);
+      expect(response.body.meta.totalItems).to.equal(1);
       expect(response.body.data[0]).to.include({
         title: "Study API testing"
       });
@@ -235,9 +243,86 @@ describe("Tasks routes", () => {
 
       expect(response.status).to.equal(200);
       expect(response.body.data).to.have.lengthOf(1);
+      expect(response.body.meta.totalItems).to.equal(1);
       expect(response.body.data[0]).to.include({
         title: "Review API tests",
         status: "done"
+      });
+    });
+
+    it("should sort tasks by title in ascending order", async () => {
+      const { token } = await createUserAndGetToken();
+
+      await request(app)
+        .post("/tasks")
+        .set("Authorization", `Bearer ${token}`)
+        .send({
+          title: "Zulu task",
+          description: "Last alphabetically",
+          status: "pending"
+        });
+
+      await request(app)
+        .post("/tasks")
+        .set("Authorization", `Bearer ${token}`)
+        .send({
+          title: "Alpha task",
+          description: "First alphabetically",
+          status: "done"
+        });
+
+      const response = await request(app)
+        .get("/tasks?sortBy=title&order=asc")
+        .set("Authorization", `Bearer ${token}`);
+
+      expect(response.status).to.equal(200);
+      expect(response.body.data).to.have.lengthOf(2);
+      expect(response.body.data[0].title).to.equal("Alpha task");
+      expect(response.body.data[1].title).to.equal("Zulu task");
+    });
+
+    it("should paginate tasks", async () => {
+      const { token } = await createUserAndGetToken();
+
+      await request(app)
+        .post("/tasks")
+        .set("Authorization", `Bearer ${token}`)
+        .send({
+          title: "Task 1",
+          description: "First task",
+          status: "pending"
+        });
+
+      await request(app)
+        .post("/tasks")
+        .set("Authorization", `Bearer ${token}`)
+        .send({
+          title: "Task 2",
+          description: "Second task",
+          status: "pending"
+        });
+
+      await request(app)
+        .post("/tasks")
+        .set("Authorization", `Bearer ${token}`)
+        .send({
+          title: "Task 3",
+          description: "Third task",
+          status: "done"
+        });
+
+      const response = await request(app)
+        .get("/tasks?sortBy=title&order=asc&page=2&limit=1")
+        .set("Authorization", `Bearer ${token}`);
+
+      expect(response.status).to.equal(200);
+      expect(response.body.data).to.have.lengthOf(1);
+      expect(response.body.data[0].title).to.equal("Task 2");
+      expect(response.body.meta).to.deep.equal({
+        page: 2,
+        limit: 1,
+        totalItems: 3,
+        totalPages: 3
       });
     });
 
@@ -280,6 +365,62 @@ describe("Tasks routes", () => {
       expect(response.body).to.deep.equal({
         message: "Validation error",
         errors: ["unknown query params are not allowed: priority"]
+      });
+    });
+
+    it("should return validation error when sortBy is invalid", async () => {
+      const { token } = await createUserAndGetToken();
+
+      const response = await request(app)
+        .get("/tasks?sortBy=priority")
+        .set("Authorization", `Bearer ${token}`);
+
+      expect(response.status).to.equal(400);
+      expect(response.body).to.deep.equal({
+        message: "Validation error",
+        errors: ["sortBy query must be one of: createdAt, updatedAt, title"]
+      });
+    });
+
+    it("should return validation error when order is invalid", async () => {
+      const { token } = await createUserAndGetToken();
+
+      const response = await request(app)
+        .get("/tasks?order=descending")
+        .set("Authorization", `Bearer ${token}`);
+
+      expect(response.status).to.equal(400);
+      expect(response.body).to.deep.equal({
+        message: "Validation error",
+        errors: ["order query must be one of: asc, desc"]
+      });
+    });
+
+    it("should return validation error when page is invalid", async () => {
+      const { token } = await createUserAndGetToken();
+
+      const response = await request(app)
+        .get("/tasks?page=0")
+        .set("Authorization", `Bearer ${token}`);
+
+      expect(response.status).to.equal(400);
+      expect(response.body).to.deep.equal({
+        message: "Validation error",
+        errors: ["page query must be an integer greater than or equal to 1"]
+      });
+    });
+
+    it("should return validation error when limit is invalid", async () => {
+      const { token } = await createUserAndGetToken();
+
+      const response = await request(app)
+        .get("/tasks?limit=101")
+        .set("Authorization", `Bearer ${token}`);
+
+      expect(response.status).to.equal(400);
+      expect(response.body).to.deep.equal({
+        message: "Validation error",
+        errors: ["limit query must be an integer between 1 and 100"]
       });
     });
   });

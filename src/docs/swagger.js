@@ -262,6 +262,27 @@ const options = {
               items: {
                 $ref: "#/components/schemas/TaskResponseData"
               }
+            },
+            meta: {
+              type: "object",
+              properties: {
+                page: {
+                  type: "integer",
+                  example: 1
+                },
+                limit: {
+                  type: "integer",
+                  example: 10
+                },
+                totalItems: {
+                  type: "integer",
+                  example: 3
+                },
+                totalPages: {
+                  type: "integer",
+                  example: 1
+                }
+              }
             }
           }
         }

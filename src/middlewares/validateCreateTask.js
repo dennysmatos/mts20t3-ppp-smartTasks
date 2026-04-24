@@ -1,9 +1,16 @@
 const AppError = require("../utils/AppError");
 const { allowedStatus } = require("../services/taskService");
+const { getUnknownFields } = require("../utils/validationHelper");
 
 function validateCreateTask(request, _response, next) {
   const { title, description, status } = request.body;
   const errors = [];
+  const allowedFields = ["title", "description", "status"];
+  const unknownFields = getUnknownFields(request.body, allowedFields);
+
+  if (unknownFields.length > 0) {
+    errors.push(`unknown fields are not allowed: ${unknownFields.join(", ")}`);
+  }
 
   if (!title || typeof title !== "string" || !title.trim()) {
     errors.push("title is required");
@@ -27,4 +34,3 @@ function validateCreateTask(request, _response, next) {
 }
 
 module.exports = validateCreateTask;
-

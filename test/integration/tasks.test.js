@@ -81,6 +81,26 @@ describe("Tasks routes", () => {
         errors: ["status must be one of: pending, in_progress, done"]
       });
     });
+
+    it("should return validation error when payload contains unknown fields", async () => {
+      const { token } = await createUserAndGetToken();
+
+      const response = await request(app)
+        .post("/tasks")
+        .set("Authorization", `Bearer ${token}`)
+        .send({
+          title: "Study API testing",
+          description: "Practice integration tests with Supertest",
+          status: "pending",
+          priority: "high"
+        });
+
+      expect(response.status).to.equal(400);
+      expect(response.body).to.deep.equal({
+        message: "Validation error",
+        errors: ["unknown fields are not allowed: priority"]
+      });
+    });
   });
 
   describe("GET /tasks", () => {
@@ -176,6 +196,20 @@ describe("Tasks routes", () => {
         errors: []
       });
     });
+
+    it("should return not found when the task id does not exist", async () => {
+      const { token } = await createUserAndGetToken();
+
+      const response = await request(app)
+        .get("/tasks/non-existent-task-id")
+        .set("Authorization", `Bearer ${token}`);
+
+      expect(response.status).to.equal(404);
+      expect(response.body).to.deep.equal({
+        message: "Task not found",
+        errors: []
+      });
+    });
   });
 
   describe("PATCH /tasks/:id", () => {
@@ -231,6 +265,33 @@ describe("Tasks routes", () => {
       });
     });
 
+    it("should return validation error when payload contains unknown fields", async () => {
+      const { token } = await createUserAndGetToken();
+
+      const createdTaskResponse = await request(app)
+        .post("/tasks")
+        .set("Authorization", `Bearer ${token}`)
+        .send({
+          title: "Study API testing",
+          description: "Initial description",
+          status: "pending"
+        });
+
+      const response = await request(app)
+        .patch(`/tasks/${createdTaskResponse.body.data.id}`)
+        .set("Authorization", `Bearer ${token}`)
+        .send({
+          status: "done",
+          priority: "high"
+        });
+
+      expect(response.status).to.equal(400);
+      expect(response.body).to.deep.equal({
+        message: "Validation error",
+        errors: ["unknown fields are not allowed: priority"]
+      });
+    });
+
     it("should return not found when trying to update another user's task", async () => {
       const mariaAuth = await createUserAndGetToken();
       const joaoAuth = await createUserAndGetToken({
@@ -250,6 +311,23 @@ describe("Tasks routes", () => {
       const response = await request(app)
         .patch(`/tasks/${createdTaskResponse.body.data.id}`)
         .set("Authorization", `Bearer ${joaoAuth.token}`)
+        .send({
+          status: "done"
+        });
+
+      expect(response.status).to.equal(404);
+      expect(response.body).to.deep.equal({
+        message: "Task not found",
+        errors: []
+      });
+    });
+
+    it("should return not found when trying to update a non-existent task", async () => {
+      const { token } = await createUserAndGetToken();
+
+      const response = await request(app)
+        .patch("/tasks/non-existent-task-id")
+        .set("Authorization", `Bearer ${token}`)
         .send({
           status: "done"
         });
@@ -307,6 +385,20 @@ describe("Tasks routes", () => {
       const response = await request(app)
         .delete(`/tasks/${createdTaskResponse.body.data.id}`)
         .set("Authorization", `Bearer ${joaoAuth.token}`);
+
+      expect(response.status).to.equal(404);
+      expect(response.body).to.deep.equal({
+        message: "Task not found",
+        errors: []
+      });
+    });
+
+    it("should return not found when trying to delete a non-existent task", async () => {
+      const { token } = await createUserAndGetToken();
+
+      const response = await request(app)
+        .delete("/tasks/non-existent-task-id")
+        .set("Authorization", `Bearer ${token}`);
 
       expect(response.status).to.equal(404);
       expect(response.body).to.deep.equal({

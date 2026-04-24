@@ -142,6 +142,146 @@ describe("Tasks routes", () => {
         status: "pending"
       });
     });
+
+    it("should filter tasks by status", async () => {
+      const { token } = await createUserAndGetToken();
+
+      await request(app)
+        .post("/tasks")
+        .set("Authorization", `Bearer ${token}`)
+        .send({
+          title: "Pending task",
+          description: "Still open",
+          status: "pending"
+        });
+
+      await request(app)
+        .post("/tasks")
+        .set("Authorization", `Bearer ${token}`)
+        .send({
+          title: "Done task",
+          description: "Already completed",
+          status: "done"
+        });
+
+      const response = await request(app)
+        .get("/tasks?status=done")
+        .set("Authorization", `Bearer ${token}`);
+
+      expect(response.status).to.equal(200);
+      expect(response.body.data).to.have.lengthOf(1);
+      expect(response.body.data[0]).to.include({
+        title: "Done task",
+        status: "done"
+      });
+    });
+
+    it("should filter tasks by search term in a case-insensitive way", async () => {
+      const { token } = await createUserAndGetToken();
+
+      await request(app)
+        .post("/tasks")
+        .set("Authorization", `Bearer ${token}`)
+        .send({
+          title: "Study API testing",
+          description: "Practice with Supertest",
+          status: "pending"
+        });
+
+      await request(app)
+        .post("/tasks")
+        .set("Authorization", `Bearer ${token}`)
+        .send({
+          title: "Read documentation",
+          description: "Swagger reference",
+          status: "done"
+        });
+
+      const response = await request(app)
+        .get("/tasks?search=superTEST")
+        .set("Authorization", `Bearer ${token}`);
+
+      expect(response.status).to.equal(200);
+      expect(response.body.data).to.have.lengthOf(1);
+      expect(response.body.data[0]).to.include({
+        title: "Study API testing"
+      });
+    });
+
+    it("should combine status and search filters", async () => {
+      const { token } = await createUserAndGetToken();
+
+      await request(app)
+        .post("/tasks")
+        .set("Authorization", `Bearer ${token}`)
+        .send({
+          title: "Review API tests",
+          description: "Pending review",
+          status: "pending"
+        });
+
+      await request(app)
+        .post("/tasks")
+        .set("Authorization", `Bearer ${token}`)
+        .send({
+          title: "Review API tests",
+          description: "Completed review",
+          status: "done"
+        });
+
+      const response = await request(app)
+        .get("/tasks?status=done&search=review")
+        .set("Authorization", `Bearer ${token}`);
+
+      expect(response.status).to.equal(200);
+      expect(response.body.data).to.have.lengthOf(1);
+      expect(response.body.data[0]).to.include({
+        title: "Review API tests",
+        status: "done"
+      });
+    });
+
+    it("should return validation error when status filter is invalid", async () => {
+      const { token } = await createUserAndGetToken();
+
+      const response = await request(app)
+        .get("/tasks?status=archived")
+        .set("Authorization", `Bearer ${token}`);
+
+      expect(response.status).to.equal(400);
+      expect(response.body).to.deep.equal({
+        message: "Validation error",
+        errors: ["status query must be one of: pending, in_progress, done"]
+      });
+    });
+
+    it("should return validation error when search query is empty", async () => {
+      const { token } = await createUserAndGetToken();
+
+      const response = await request(app)
+        .get("/tasks?search=")
+        .set("Authorization", `Bearer ${token}`);
+
+      expect(response.status).to.equal(400);
+      expect(response.body).to.deep.equal({
+        message: "Validation error",
+        errors: ["search query cannot be empty"]
+      });
+    });
+
+    it("should return validation error when unknown query params are provided", async () => {
+      const { token } = await createUserAndGetToken();
+
+      const response = await request(app)
+        .get("/tasks?priority=high")
+        .set("Authorization", `Bearer ${token}`);
+
+      expect(response.status).to.equal(400);
+      expect(response.body).to.deep.equal({
+        message: "Validation error",
+        errors: ["unknown query params are not allowed: priority"]
+      });
+    });
   });
 
   describe("GET /tasks/:id", () => {

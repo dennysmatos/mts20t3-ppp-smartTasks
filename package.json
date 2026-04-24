@@ -8,10 +8,28 @@
     "start": "node src/server.js",
     "test": "mocha --require test/setup.js --recursive test/**/*.test.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "qa",
+    "api-testing",
+    "nodejs",
+    "express",
+    "mocha",
+    "chai",
+    "supertest",
+    "jwt",
+    "swagger"
+  ],
+  "author": "Dennys Matos",
   "license": "ISC",
   "type": "commonjs",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:dennysmatos/mts20t3-ppp-smartTasks.git"
+  },
+  "homepage": "https://github.com/dennysmatos/mts20t3-ppp-smartTasks",
+  "bugs": {
+    "url": "https://github.com/dennysmatos/mts20t3-ppp-smartTasks/issues"
+  },
   "dependencies": {
     "bcryptjs": "^3.0.3",
     "dotenv": "^17.4.2",

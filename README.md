@@ -139,6 +139,15 @@ The project currently focuses on integration tests covering:
 - task CRUD flows
 - documentation availability
 
+## Continuous integration
+
+The repository includes a GitHub Actions workflow that:
+
+- installs dependencies with `npm ci`
+- runs the automated test suite with `npm test`
+- executes on pushes to `main`, `master`, and `codex/**`
+- executes on pull requests targeting `main` or `master`
+
 ## Important limitation
 
 JSON file persistence is intentionally used for the MVP to keep the project simple and focused on API quality. It is not intended for production use and has known limitations around concurrency and scalability.

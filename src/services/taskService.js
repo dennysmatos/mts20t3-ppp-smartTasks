@@ -22,10 +22,20 @@ async function createTask(userId, payload) {
   return taskToCreate;
 }
 
-async function listTasksByUserId(userId) {
+async function listTasksByUserId(userId, filters = {}) {
   const tasks = await taskRepository.findByUserId(userId);
+  const normalizedStatus = typeof filters.status === "string" ? filters.status.trim() : "";
+  const normalizedSearch = typeof filters.search === "string" ? filters.search.trim().toLowerCase() : "";
 
-  return tasks;
+  return tasks.filter((task) => {
+    const matchesStatus = !normalizedStatus || task.status === normalizedStatus;
+    const matchesSearch =
+      !normalizedSearch ||
+      task.title.toLowerCase().includes(normalizedSearch) ||
+      task.description.toLowerCase().includes(normalizedSearch);
+
+    return matchesStatus && matchesSearch;
+  });
 }
 
 async function getTaskById(userId, taskId) {
@@ -81,7 +91,6 @@ module.exports = {
   createTask,
   deleteTask,
   getTaskById,
-  listTasksByUserId
-  ,
+  listTasksByUserId,
   updateTask
 };

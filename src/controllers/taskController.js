@@ -15,7 +15,7 @@ async function create(request, response, next) {
 
 async function list(request, response, next) {
   try {
-    const tasks = await taskService.listTasksByUserId(request.user.id);
+    const tasks = await taskService.listTasksByUserId(request.user.id, request.query);
 
     return response.status(200).json({
       message: "Tasks retrieved successfully",

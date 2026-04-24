@@ -3,6 +3,7 @@ const express = require("express");
 const taskController = require("../controllers/taskController");
 const authMiddleware = require("../middlewares/authMiddleware");
 const validateCreateTask = require("../middlewares/validateCreateTask");
+const validateTaskQuery = require("../middlewares/validateTaskQuery");
 const validateUpdateTask = require("../middlewares/validateUpdateTask");
 
 const router = express.Router();
@@ -49,6 +50,18 @@ router.use(authMiddleware);
  *     summary: List tasks from the authenticated user
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: status
+ *         schema:
+ *           type: string
+ *           enum: [pending, in_progress, done]
+ *         description: Filter tasks by status
+ *       - in: query
+ *         name: search
+ *         schema:
+ *           type: string
+ *         description: Search by title or description
  *     responses:
  *       200:
  *         description: Tasks retrieved successfully
@@ -62,9 +75,15 @@ router.use(authMiddleware);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
+ *       400:
+ *         description: Validation error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
  */
 router.post("/", validateCreateTask, taskController.create);
-router.get("/", taskController.list);
+router.get("/", validateTaskQuery, taskController.list);
 /**
  * @swagger
  * /tasks/{id}:

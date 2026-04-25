@@ -1,0 +1,15 @@
+# Informa que este é o arquivo de configuração raiz (não procure em pastas superiores)
+root = true
+
+# Configurações globais para todos os arquivos
+[*]
+indent_style = space
+indent_size = 3
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+end_of_line = lf
+
+# Configurações específicas para arquivos Markdown
+[*.md]
+trim_trailing_whitespace = false

@@ -1,8 +1,8 @@
-const express = require("express");
+const express = require('express')
 
-const healthController = require("../controllers/healthController");
+const healthController = require('../controllers/healthController')
 
-const router = express.Router();
+const router = express.Router()
 
 /**
  * @swagger
@@ -19,6 +19,6 @@ const router = express.Router();
  *             schema:
  *               $ref: '#/components/schemas/HealthResponse'
  */
-router.get("/", healthController.check);
+router.get('/', healthController.check)
 
-module.exports = router;
+module.exports = router

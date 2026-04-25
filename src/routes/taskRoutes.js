@@ -1,14 +1,14 @@
-const express = require("express");
+const express = require('express')
 
-const taskController = require("../controllers/taskController");
-const authMiddleware = require("../middlewares/authMiddleware");
-const validateCreateTask = require("../middlewares/validateCreateTask");
-const validateTaskQuery = require("../middlewares/validateTaskQuery");
-const validateUpdateTask = require("../middlewares/validateUpdateTask");
+const taskController = require('../controllers/taskController')
+const authMiddleware = require('../middlewares/authMiddleware')
+const validateCreateTask = require('../middlewares/validateCreateTask')
+const validateTaskQuery = require('../middlewares/validateTaskQuery')
+const validateUpdateTask = require('../middlewares/validateUpdateTask')
 
-const router = express.Router();
+const router = express.Router()
 
-router.use(authMiddleware);
+router.use(authMiddleware)
 
 /**
  * @swagger
@@ -107,8 +107,8 @@ router.use(authMiddleware);
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  */
-router.post("/", validateCreateTask, taskController.create);
-router.get("/", validateTaskQuery, taskController.list);
+router.post('/', validateCreateTask, taskController.create)
+router.get('/', validateTaskQuery, taskController.list)
 /**
  * @swagger
  * /tasks/{id}:
@@ -214,8 +214,8 @@ router.get("/", validateTaskQuery, taskController.list);
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  */
-router.get("/:id", taskController.getById);
-router.patch("/:id", validateUpdateTask, taskController.update);
-router.delete("/:id", taskController.remove);
+router.get('/:id', taskController.getById)
+router.patch('/:id', validateUpdateTask, taskController.update)
+router.delete('/:id', taskController.remove)
 
-module.exports = router;
+module.exports = router

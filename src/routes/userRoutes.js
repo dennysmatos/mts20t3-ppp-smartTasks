@@ -1,10 +1,10 @@
-const express = require("express");
+const express = require('express')
 
-const userController = require("../controllers/userController");
-const authMiddleware = require("../middlewares/authMiddleware");
-const validateCreateUser = require("../middlewares/validateCreateUser");
+const userController = require('../controllers/userController')
+const authMiddleware = require('../middlewares/authMiddleware')
+const validateCreateUser = require('../middlewares/validateCreateUser')
 
-const router = express.Router();
+const router = express.Router()
 
 /**
  * @swagger
@@ -39,7 +39,7 @@ const router = express.Router();
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  */
-router.post("/", validateCreateUser, userController.create);
+router.post('/', validateCreateUser, userController.create)
 
 /**
  * @swagger
@@ -70,6 +70,6 @@ router.post("/", validateCreateUser, userController.create);
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  */
-router.get("/me", authMiddleware, userController.getAuthenticatedUser);
+router.get('/me', authMiddleware, userController.getAuthenticatedUser)
 
-module.exports = router;
+module.exports = router

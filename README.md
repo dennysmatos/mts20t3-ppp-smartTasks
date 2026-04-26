@@ -101,28 +101,28 @@ npm test
 
 ## Endpoints
 
-| Método | Rota          | Autenticação | Descrição                            |
-|--------|---------------|:------------:|--------------------------------------|
-| GET    | /health       | —            | Verifica disponibilidade da API      |
-| POST   | /users        | —            | Cria um novo usuário                 |
-| GET    | /users/me     | Bearer Token | Retorna o perfil do usuário logado   |
-| POST   | /auth/login   | —            | Autentica e retorna o token JWT      |
-| POST   | /tasks        | Bearer Token | Cria uma nova tarefa                 |
-| GET    | /tasks        | Bearer Token | Lista tarefas com filtros e paginação|
-| GET    | /tasks/:id    | Bearer Token | Busca uma tarefa pelo ID             |
-| PATCH  | /tasks/:id    | Bearer Token | Atualiza parcialmente uma tarefa     |
-| DELETE | /tasks/:id    | Bearer Token | Remove uma tarefa                    |
+| Método | Rota        | Autenticação | Descrição                             |
+| ------ | ----------- | :----------: | ------------------------------------- |
+| GET    | /health     |      —       | Verifica disponibilidade da API       |
+| POST   | /users      |      —       | Cria um novo usuário                  |
+| GET    | /users/me   | Bearer Token | Retorna o perfil do usuário logado    |
+| POST   | /auth/login |      —       | Autentica e retorna o token JWT       |
+| POST   | /tasks      | Bearer Token | Cria uma nova tarefa                  |
+| GET    | /tasks      | Bearer Token | Lista tarefas com filtros e paginação |
+| GET    | /tasks/:id  | Bearer Token | Busca uma tarefa pelo ID              |
+| PATCH  | /tasks/:id  | Bearer Token | Atualiza parcialmente uma tarefa      |
+| DELETE | /tasks/:id  | Bearer Token | Remove uma tarefa                     |
 
 ### Parâmetros de query para `GET /tasks`
 
-| Parâmetro | Tipo    | Valores aceitos                    | Descrição                       |
-|-----------|---------|------------------------------------|---------------------------------|
-| status    | string  | `pending`, `in_progress`, `done`   | Filtra por status               |
-| search    | string  | qualquer texto                     | Busca no título ou descrição    |
-| sortBy    | string  | `createdAt`, `updatedAt`, `title`  | Campo de ordenação              |
-| order     | string  | `asc`, `desc`                      | Direção da ordenação            |
-| page      | integer | ≥ 1                                | Número da página                |
-| limit     | integer | 1 – 100                            | Itens por página                |
+| Parâmetro | Tipo    | Valores aceitos                   | Descrição                    |
+| --------- | ------- | --------------------------------- | ---------------------------- |
+| status    | string  | `pending`, `in_progress`, `done`  | Filtra por status            |
+| search    | string  | qualquer texto                    | Busca no título ou descrição |
+| sortBy    | string  | `createdAt`, `updatedAt`, `title` | Campo de ordenação           |
+| order     | string  | `asc`, `desc`                     | Direção da ordenação         |
+| page      | integer | ≥ 1                               | Número da página             |
+| limit     | integer | 1 – 100                           | Itens por página             |
 
 ## Documentação da API
 

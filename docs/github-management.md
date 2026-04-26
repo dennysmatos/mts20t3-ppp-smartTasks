@@ -10,6 +10,7 @@
 Expand automated coverage for the OpenAPI contract exposed by `/docs.json`. The goal is to validate documented response schemas, query parameters, and authentication requirements to reduce drift between implementation and documentation.
 
 **Acceptance criteria:**
+
 - validate critical paths from the OpenAPI spec
 - cover `/users`, `/users/me`, `/auth/login`, and `/tasks`
 - fail fast when documented parameters diverge from implementation
@@ -22,6 +23,7 @@ Expand automated coverage for the OpenAPI contract exposed by `/docs.json`. The 
 The MVP intentionally uses JSON file persistence, but this creates a known limitation around concurrent writes and test isolation. Investigate ways to reduce risk and document the trade-offs.
 
 **Acceptance criteria:**
+
 - document the concurrency limitation
 - propose or implement a simple write-serialization strategy
 - add at least one test or technical note demonstrating the risk
@@ -34,6 +36,7 @@ The MVP intentionally uses JSON file persistence, but this creates a known limit
 Now that the project has a GitHub Actions pipeline, the repository should adopt a safer merge flow around `main`.
 
 **Acceptance criteria:**
+
 - set `main` as the default branch
 - require pull requests for changes to `main`
 - require CI to pass before merge

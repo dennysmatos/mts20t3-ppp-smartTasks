@@ -1,10 +1,10 @@
-import express from 'express'
+import express from 'express';
 
-import * as userController from '../controllers/userController.js'
-import authMiddleware from '../middlewares/authMiddleware.js'
-import validateCreateUser from '../middlewares/validateCreateUser.js'
+import * as userController from '../controllers/userController.js';
+import authMiddleware from '../middlewares/authMiddleware.js';
+import validateCreateUser from '../middlewares/validateCreateUser.js';
 
-const router = express.Router()
+const router = express.Router();
 
 /**
  * @swagger
@@ -39,7 +39,7 @@ const router = express.Router()
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  */
-router.post('/', validateCreateUser, userController.create)
+router.post('/', validateCreateUser, userController.create);
 
 /**
  * @swagger
@@ -70,6 +70,6 @@ router.post('/', validateCreateUser, userController.create)
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  */
-router.get('/me', authMiddleware, userController.getAuthenticatedUser)
+router.get('/me', authMiddleware, userController.getAuthenticatedUser);
 
-export default router
+export default router;

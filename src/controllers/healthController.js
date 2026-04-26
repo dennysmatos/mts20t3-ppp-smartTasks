@@ -1,10 +1,10 @@
 function check(_request, response) {
-   return response.status(200).json({
-      message: 'API is running',
-      data: {
-         status: 'ok',
-      },
-   })
+  return response.status(200).json({
+    message: 'API is running',
+    data: {
+      status: 'ok',
+    },
+  });
 }
 
-export { check }
+export { check };

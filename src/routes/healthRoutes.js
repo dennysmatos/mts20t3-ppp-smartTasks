@@ -1,8 +1,8 @@
-import express from 'express'
+import express from 'express';
 
-import * as healthController from '../controllers/healthController.js'
+import * as healthController from '../controllers/healthController.js';
 
-const router = express.Router()
+const router = express.Router();
 
 /**
  * @swagger
@@ -19,6 +19,6 @@ const router = express.Router()
  *             schema:
  *               $ref: '#/components/schemas/HealthResponse'
  */
-router.get('/', healthController.check)
+router.get('/', healthController.check);
 
-export default router
+export default router;

@@ -35,7 +35,7 @@ Construir uma API REST realista para gerenciamento de tarefas com autenticação
 O projeto adota uma arquitetura em camadas para separar responsabilidades e facilitar manutenção e testabilidade:
 
 | Camada         | Responsabilidade                                          |
-|----------------|-----------------------------------------------------------|
+| -------------- | --------------------------------------------------------- |
 | `routes`       | Definição dos endpoints e anotações Swagger               |
 | `controllers`  | Orquestração do fluxo HTTP (request → service → response) |
 | `services`     | Regras de negócio e lógica de domínio                     |
@@ -52,13 +52,13 @@ O projeto adota uma arquitetura em camadas para separar responsabilidades e faci
 ### Usuários
 
 - `POST /users`
-- `GET /users/me` *(requer autenticação)*
+- `GET /users/me` _(requer autenticação)_
 
 ### Autenticação
 
 - `POST /auth/login`
 
-### Tarefas *(todas requerem autenticação)*
+### Tarefas _(todas requerem autenticação)_
 
 - `POST /tasks`
 - `GET /tasks`

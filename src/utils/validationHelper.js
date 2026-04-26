@@ -1,5 +1,5 @@
 function getUnknownFields(payload, allowedFields) {
-   return Object.keys(payload).filter((field) => !allowedFields.includes(field))
+  return Object.keys(payload).filter((field) => !allowedFields.includes(field));
 }
 
-export { getUnknownFields }
+export { getUnknownFields };

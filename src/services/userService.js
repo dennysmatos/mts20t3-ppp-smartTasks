@@ -1,57 +1,57 @@
-import bcrypt from 'bcryptjs'
+import bcrypt from 'bcryptjs';
 
-import * as userRepository from '../repositories/userRepository.js'
-import AppError from '../utils/AppError.js'
-import { generateId } from '../utils/idHelper.js'
+import * as userRepository from '../repositories/userRepository.js';
+import AppError from '../utils/AppError.js';
+import { generateId } from '../utils/idHelper.js';
 
 async function createUser(payload) {
-   const existingUser = await userRepository.findByEmail(payload.email)
+  const existingUser = await userRepository.findByEmail(payload.email);
 
-   if (existingUser) {
-      throw new AppError('Email is already registered', 409)
-   }
+  if (existingUser) {
+    throw new AppError('Email is already registered', 409);
+  }
 
-   const now = new Date().toISOString()
-   const password = await bcrypt.hash(payload.password, 10)
+  const now = new Date().toISOString();
+  const password = await bcrypt.hash(payload.password, 10);
 
-   const userToCreate = {
-      id: generateId(),
-      name: payload.name.trim(),
-      email: payload.email.trim().toLowerCase(),
-      password,
-      createdAt: now,
-      updatedAt: now,
-   }
+  const userToCreate = {
+    id: generateId(),
+    name: payload.name.trim(),
+    email: payload.email.trim().toLowerCase(),
+    password,
+    createdAt: now,
+    updatedAt: now,
+  };
 
-   await userRepository.create(userToCreate)
+  await userRepository.create(userToCreate);
 
-   return {
-      id: userToCreate.id,
-      name: userToCreate.name,
-      email: userToCreate.email,
-      createdAt: userToCreate.createdAt,
-      updatedAt: userToCreate.updatedAt,
-   }
+  return {
+    id: userToCreate.id,
+    name: userToCreate.name,
+    email: userToCreate.email,
+    createdAt: userToCreate.createdAt,
+    updatedAt: userToCreate.updatedAt,
+  };
 }
 
 async function getUserById(userId) {
-   const user = await userRepository.findById(userId)
+  const user = await userRepository.findById(userId);
 
-   if (!user) {
-      throw new AppError('User not found', 404)
-   }
+  if (!user) {
+    throw new AppError('User not found', 404);
+  }
 
-   return sanitizeUser(user)
+  return sanitizeUser(user);
 }
 
 function sanitizeUser(user) {
-   return {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      createdAt: user.createdAt,
-      updatedAt: user.updatedAt,
-   }
+  return {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    createdAt: user.createdAt,
+    updatedAt: user.updatedAt,
+  };
 }
 
-export { createUser, getUserById }
+export { createUser, getUserById };

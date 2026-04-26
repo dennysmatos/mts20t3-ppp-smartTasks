@@ -1,49 +1,51 @@
 {
-  "name": "task-manager-api",
-  "version": "1.0.0",
-  "description": "Portfolio project for REST API quality engineering practice.",
-  "main": "src/server.js",
-  "scripts": {
-    "dev": "node --watch src/server.js",
-    "start": "node src/server.js",
-    "test": "mocha --require test/setup.cjs --recursive test/**/*.test.js",
-    "test:functional": "mocha --require test/setup.cjs --recursive test/**/*.test.js",
-    "prettier": "prettier --check ."
-  },
-  "keywords": [
-    "qa",
-    "api-testing",
-    "nodejs",
-    "express",
-    "mocha",
-    "chai",
-    "supertest",
-    "jwt",
-    "swagger"
-  ],
-  "author": "Dennys Matos",
-  "license": "ISC",
-  "type": "module",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:dennysmatos/mts20t3-ppp-smartTasks.git"
-  },
-  "homepage": "https://github.com/dennysmatos/mts20t3-ppp-smartTasks",
-  "bugs": {
-    "url": "https://github.com/dennysmatos/mts20t3-ppp-smartTasks/issues"
-  },
-  "dependencies": {
-    "bcryptjs": "^3.0.3",
-    "dotenv": "^17.4.2",
-    "express": "^5.2.1",
-    "jsonwebtoken": "^9.0.3",
-    "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.1"
-  },
-  "devDependencies": {
-    "chai": "^6.2.2",
-    "mocha": "^11.7.5",
-    "nodemon": "^3.1.14",
-    "supertest": "^7.2.2"
-  }
+   "name": "task-manager-api",
+   "version": "1.0.0",
+   "description": "Portfolio project for REST API quality engineering practice.",
+   "main": "src/server.js",
+   "scripts": {
+      "dev": "node --watch src/server.js",
+      "start": "node src/server.js",
+      "test": "mocha --require test/setup.js test/**/*.test.js",
+      "test:functional": "mocha --require test/setup.js test/integration/**/*.test.js",
+      "coverage": "nyc --reporter=lcov --reporter=text-summary mocha --require test/setup.js test/integration/**/*.test.js",
+      "reports": "npm run coverage",
+      "prettier": "prettier --check ."
+   },
+   "keywords": [
+      "qa",
+      "api-testing",
+      "nodejs",
+      "express",
+      "mocha",
+      "chai",
+      "supertest",
+      "jwt",
+      "swagger"
+   ],
+   "author": "Dennys Matos",
+   "license": "ISC",
+   "type": "module",
+   "repository": {
+      "type": "git",
+      "url": "git@github.com:dennysmatos/mts20t3-ppp-smartTasks.git"
+   },
+   "homepage": "https://github.com/dennysmatos/mts20t3-ppp-smartTasks",
+   "bugs": {
+      "url": "https://github.com/dennysmatos/mts20t3-ppp-smartTasks/issues"
+   },
+   "dependencies": {
+      "bcryptjs": "^3.0.3",
+      "dotenv": "^17.4.2",
+      "express": "^5.2.1",
+      "jsonwebtoken": "^9.0.3",
+      "swagger-jsdoc": "^6.2.8",
+      "swagger-ui-express": "^5.0.1"
+   },
+   "devDependencies": {
+      "chai": "^6.2.2",
+      "mocha": "^11.7.5",
+      "nodemon": "^3.1.14",
+      "supertest": "^7.2.2"
+   }
 }

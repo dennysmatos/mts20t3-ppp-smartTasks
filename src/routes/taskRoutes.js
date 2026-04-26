@@ -1,14 +1,14 @@
-import express from 'express'
+import express from 'express';
 
-import * as taskController from '../controllers/taskController.js'
-import authMiddleware from '../middlewares/authMiddleware.js'
-import validateCreateTask from '../middlewares/validateCreateTask.js'
-import validateTaskQuery from '../middlewares/validateTaskQuery.js'
-import validateUpdateTask from '../middlewares/validateUpdateTask.js'
+import * as taskController from '../controllers/taskController.js';
+import authMiddleware from '../middlewares/authMiddleware.js';
+import validateCreateTask from '../middlewares/validateCreateTask.js';
+import validateTaskQuery from '../middlewares/validateTaskQuery.js';
+import validateUpdateTask from '../middlewares/validateUpdateTask.js';
 
-const router = express.Router()
+const router = express.Router();
 
-router.use(authMiddleware)
+router.use(authMiddleware);
 
 /**
  * @swagger
@@ -107,8 +107,8 @@ router.use(authMiddleware)
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  */
-router.post('/', validateCreateTask, taskController.create)
-router.get('/', validateTaskQuery, taskController.list)
+router.post('/', validateCreateTask, taskController.create);
+router.get('/', validateTaskQuery, taskController.list);
 /**
  * @swagger
  * /tasks/{id}:
@@ -214,8 +214,8 @@ router.get('/', validateTaskQuery, taskController.list)
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  */
-router.get('/:id', taskController.getById)
-router.patch('/:id', validateUpdateTask, taskController.update)
-router.delete('/:id', taskController.remove)
+router.get('/:id', taskController.getById);
+router.patch('/:id', validateUpdateTask, taskController.update);
+router.delete('/:id', taskController.remove);
 
-export default router
+export default router;

@@ -1,9 +1,9 @@
-import express from 'express'
+import express from 'express';
 
-import * as authController from '../controllers/authController.js'
-import validateLogin from '../middlewares/validateLogin.js'
+import * as authController from '../controllers/authController.js';
+import validateLogin from '../middlewares/validateLogin.js';
 
-const router = express.Router()
+const router = express.Router();
 
 /**
  * @swagger
@@ -38,6 +38,6 @@ const router = express.Router()
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  */
-router.post('/login', validateLogin, authController.login)
+router.post('/login', validateLogin, authController.login);
 
-export default router
+export default router;

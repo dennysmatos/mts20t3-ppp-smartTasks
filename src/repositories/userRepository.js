@@ -1,37 +1,37 @@
-import { fileURLToPath } from 'url'
-import { dirname, join } from 'path'
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 
-import { readJsonFile, writeJsonFile } from '../utils/fileHelper.js'
+import { readJsonFile, writeJsonFile } from '../utils/fileHelper.js';
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
-const usersFilePath = join(__dirname, '../data/users.json')
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const usersFilePath = join(__dirname, '../data/users.json');
 
 async function findAll() {
-   return readJsonFile(usersFilePath)
+  return readJsonFile(usersFilePath);
 }
 
 async function findByEmail(email) {
-   const users = await findAll()
+  const users = await findAll();
 
-   return (
-      users.find((user) => user.email === email.trim().toLowerCase()) || null
-   )
+  return (
+    users.find((user) => user.email === email.trim().toLowerCase()) || null
+  );
 }
 
 async function findById(userId) {
-   const users = await findAll()
+  const users = await findAll();
 
-   return users.find((user) => user.id === userId) || null
+  return users.find((user) => user.id === userId) || null;
 }
 
 async function create(user) {
-   const users = await findAll()
+  const users = await findAll();
 
-   users.push(user)
+  users.push(user);
 
-   await writeJsonFile(usersFilePath, users)
+  await writeJsonFile(usersFilePath, users);
 
-   return user
+  return user;
 }
 
-export { create, findAll, findById, findByEmail }
+export { create, findAll, findById, findByEmail };

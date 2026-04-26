@@ -1,0 +1,10 @@
+# Ignorar diretórios gerados e artefatos de relatório
+node_modules/
+coverage/
+reports/
+.env
+*.log
+
+# Arquivos de configuração do editor
+.vscode/
+.DS_Store

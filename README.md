@@ -12,7 +12,6 @@ API REST construída como projeto de portfólio de QA para demonstrar testes de 
 
 ## Tecnologias
 
-
 | Categoria    | Tecnologia                                              |
 | ------------ | ------------------------------------------------------- |
 | Runtime      | Node.js 20+ com ES Modules nativos (`"type": "module"`) |
@@ -23,7 +22,6 @@ API REST construída como projeto de portfólio de QA para demonstrar testes de 
 | Documentação | Swagger UI (`swagger-jsdoc` + `swagger-ui-express`)     |
 | Linting      | ESLint + Prettier                                       |
 | Persistência | Arquivo JSON (MVP)                                      |
-
 
 ## Funcionalidades
 
@@ -112,7 +110,6 @@ npm run prettier
 
 ## Endpoints
 
-
 | Método | Rota        | Autenticação | Descrição                               |
 | ------ | ----------- | ------------ | --------------------------------------- |
 | GET    | /health     | —            | Verifica disponibilidade da API         |
@@ -125,9 +122,7 @@ npm run prettier
 | PATCH  | /tasks/:id  | Bearer Token | Atualiza parcialmente uma tarefa        |
 | DELETE | /tasks/:id  | Bearer Token | Remove uma tarefa                       |
 
-
 ### Parâmetros de query para `GET /tasks`
-
 
 | Parâmetro | Tipo    | Valores aceitos                   | Descrição                    |
 | --------- | ------- | --------------------------------- | ---------------------------- |
@@ -137,7 +132,6 @@ npm run prettier
 | order     | string  | `asc`, `desc`                     | Direção da ordenação         |
 | page      | integer | ≥ 1                               | Número da página             |
 | limit     | integer | 1 – 100                           | Itens por página             |
-
 
 ## Documentação da API
 
@@ -150,13 +144,11 @@ Com a aplicação em execução:
 
 Três workflows no GitHub Actions acionados em push e pull requests para `main`:
 
-
 | Workflow            | O que faz                                                                         |
 | ------------------- | --------------------------------------------------------------------------------- |
 | **Node.js CI**      | Lint, Prettier, testes com cobertura e testes funcionais; comenta resultado no PR |
 | **Coverage Report** | Gera relatório nyc/lcov e comenta percentual de cobertura no PR                   |
 | **Security Checks** | `npm audit` e Dependency Review; executa também semanalmente (cron domingo)       |
-
 
 ## Destaques de Qualidade
 
@@ -171,4 +163,3 @@ Três workflows no GitHub Actions acionados em push e pull requests para `main`:
 - A persistência em JSON foi escolhida para o MVP, priorizando o foco em design de API e qualidade de testes.
 - O projeto utiliza ES Modules nativos do Node.js (`import`/`export`), sem transpilação.
 - O arquivo `test/setup.js` define as variáveis de ambiente necessárias para os testes sem depender de um `.env`.
-

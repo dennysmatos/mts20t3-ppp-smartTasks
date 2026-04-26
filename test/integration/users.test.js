@@ -1,14 +1,16 @@
-const fs = require('fs/promises')
-const path = require('path')
+import { readFile } from 'fs/promises'
+import { fileURLToPath } from 'url'
+import { dirname, join } from 'path'
 
-const request = require('supertest')
-const { expect } = require('chai')
-const bcrypt = require('bcryptjs')
+import request from 'supertest'
+import { expect } from 'chai'
+import bcrypt from 'bcryptjs'
 
-const app = require('../../src/app')
-const { resetDataFiles } = require('../helpers/testDataHelper')
+import app from '../../src/app.js'
+import { resetDataFiles } from '../helpers/testDataHelper.js'
 
-const usersFilePath = path.join(__dirname, '../../src/data/users.json')
+const __dirname = dirname(fileURLToPath(import.meta.url))
+const usersFilePath = join(__dirname, '../../src/data/users.json')
 
 describe('POST /users', () => {
    beforeEach(async () => {
@@ -24,7 +26,7 @@ describe('POST /users', () => {
 
       const response = await request(app).post('/users').send(payload)
 
-      const savedUsers = JSON.parse(await fs.readFile(usersFilePath, 'utf-8'))
+      const savedUsers = JSON.parse(await readFile(usersFilePath, 'utf-8'))
 
       expect(response.status).to.equal(201)
       expect(response.body.message).to.equal('User created successfully')

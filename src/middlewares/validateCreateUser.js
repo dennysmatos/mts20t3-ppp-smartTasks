@@ -1,4 +1,4 @@
-const AppError = require('../utils/AppError')
+import AppError from '../utils/AppError.js'
 
 function validateCreateUser(request, _response, next) {
    const { name, email, password } = request.body
@@ -25,4 +25,4 @@ function validateCreateUser(request, _response, next) {
    return next()
 }
 
-module.exports = validateCreateUser
+export default validateCreateUser

@@ -1,8 +1,8 @@
-const bcrypt = require('bcryptjs')
+import bcrypt from 'bcryptjs'
 
-const userRepository = require('../repositories/userRepository')
-const AppError = require('../utils/AppError')
-const { generateToken } = require('../utils/jwtHelper')
+import * as userRepository from '../repositories/userRepository.js'
+import AppError from '../utils/AppError.js'
+import { generateToken } from '../utils/jwtHelper.js'
 
 async function login(payload) {
    const normalizedEmail = payload.email.trim().toLowerCase()
@@ -28,6 +28,4 @@ async function login(payload) {
    }
 }
 
-module.exports = {
-   login,
-}
+export { login }

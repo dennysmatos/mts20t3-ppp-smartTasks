@@ -1,10 +1,10 @@
-const jwt = require('jsonwebtoken')
-const request = require('supertest')
-const { expect } = require('chai')
+import jwt from 'jsonwebtoken'
+import request from 'supertest'
+import { expect } from 'chai'
 
-const app = require('../../src/app')
-const { resetDataFiles } = require('../helpers/testDataHelper')
-const { JWT_SECRET } = require('../../src/utils/jwtHelper')
+import app from '../../src/app.js'
+import { resetDataFiles } from '../helpers/testDataHelper.js'
+import { JWT_SECRET } from '../../src/utils/jwtHelper.js'
 
 describe('POST /auth/login', () => {
    beforeEach(async () => {

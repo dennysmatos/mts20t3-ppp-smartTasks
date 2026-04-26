@@ -1,7 +1,7 @@
-const express = require('express')
+import express from 'express'
 
-const authController = require('../controllers/authController')
-const validateLogin = require('../middlewares/validateLogin')
+import * as authController from '../controllers/authController.js'
+import validateLogin from '../middlewares/validateLogin.js'
 
 const router = express.Router()
 
@@ -40,4 +40,4 @@ const router = express.Router()
  */
 router.post('/login', validateLogin, authController.login)
 
-module.exports = router
+export default router

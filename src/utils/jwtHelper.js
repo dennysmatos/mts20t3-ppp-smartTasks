@@ -1,5 +1,6 @@
-const jwt = require('jsonwebtoken')
-const env = require('../config/env')
+import jwt from 'jsonwebtoken'
+
+import env from '../config/env.js'
 
 const JWT_SECRET = env.jwtSecret
 const JWT_EXPIRES_IN = env.jwtExpiresIn
@@ -14,9 +15,4 @@ function verifyToken(token) {
    return jwt.verify(token, JWT_SECRET)
 }
 
-module.exports = {
-   generateToken,
-   JWT_SECRET,
-   JWT_EXPIRES_IN,
-   verifyToken,
-}
+export { generateToken, JWT_SECRET, JWT_EXPIRES_IN, verifyToken }

@@ -1,14 +1,14 @@
-const fs = require('fs/promises')
-const path = require('path')
+import { writeFile } from 'fs/promises'
+import { fileURLToPath } from 'url'
+import { dirname, join } from 'path'
 
-const usersFilePath = path.join(__dirname, '../../src/data/users.json')
-const tasksFilePath = path.join(__dirname, '../../src/data/tasks.json')
+const __dirname = dirname(fileURLToPath(import.meta.url))
+const usersFilePath = join(__dirname, '../../src/data/users.json')
+const tasksFilePath = join(__dirname, '../../src/data/tasks.json')
 
 async function resetDataFiles() {
-   await fs.writeFile(usersFilePath, '[]')
-   await fs.writeFile(tasksFilePath, '[]')
+   await writeFile(usersFilePath, '[]')
+   await writeFile(tasksFilePath, '[]')
 }
 
-module.exports = {
-   resetDataFiles,
-}
+export { resetDataFiles }

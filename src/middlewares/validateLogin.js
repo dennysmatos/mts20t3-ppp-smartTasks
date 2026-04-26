@@ -1,4 +1,4 @@
-const AppError = require('../utils/AppError')
+import AppError from '../utils/AppError.js'
 
 function validateLogin(request, _response, next) {
    const { email, password } = request.body
@@ -19,4 +19,4 @@ function validateLogin(request, _response, next) {
    return next()
 }
 
-module.exports = validateLogin
+export default validateLogin

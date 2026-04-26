@@ -1,13 +1,13 @@
-const express = require('express')
-const swaggerUi = require('swagger-ui-express')
+import express from 'express'
+import swaggerUi from 'swagger-ui-express'
 
-const authRoutes = require('./routes/authRoutes')
-const swaggerSpec = require('./docs/swagger')
-const healthRoutes = require('./routes/healthRoutes')
-const taskRoutes = require('./routes/taskRoutes')
-const userRoutes = require('./routes/userRoutes')
-const errorMiddleware = require('./middlewares/errorMiddleware')
-const notFoundMiddleware = require('./middlewares/notFoundMiddleware')
+import authRoutes from './routes/authRoutes.js'
+import healthRoutes from './routes/healthRoutes.js'
+import taskRoutes from './routes/taskRoutes.js'
+import userRoutes from './routes/userRoutes.js'
+import swaggerSpec from './docs/swagger.js'
+import errorMiddleware from './middlewares/errorMiddleware.js'
+import notFoundMiddleware from './middlewares/notFoundMiddleware.js'
 
 const app = express()
 
@@ -26,4 +26,4 @@ app.use('/users', userRoutes)
 app.use(notFoundMiddleware)
 app.use(errorMiddleware)
 
-module.exports = app
+export default app

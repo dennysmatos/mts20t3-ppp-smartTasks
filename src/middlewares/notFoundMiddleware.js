@@ -1,4 +1,4 @@
-const AppError = require('../utils/AppError')
+import AppError from '../utils/AppError.js'
 
 function notFoundMiddleware(request, _response, next) {
    return next(
@@ -9,4 +9,4 @@ function notFoundMiddleware(request, _response, next) {
    )
 }
 
-module.exports = notFoundMiddleware
+export default notFoundMiddleware

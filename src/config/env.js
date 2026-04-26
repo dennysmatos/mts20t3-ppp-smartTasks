@@ -1,4 +1,4 @@
-const dotenv = require('dotenv')
+import dotenv from 'dotenv'
 
 dotenv.config()
 
@@ -8,4 +8,4 @@ const env = {
    jwtExpiresIn: process.env.JWT_EXPIRES_IN || '1h',
 }
 
-module.exports = env
+export default env

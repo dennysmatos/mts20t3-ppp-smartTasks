@@ -1,8 +1,8 @@
-const bcrypt = require('bcryptjs')
+import bcrypt from 'bcryptjs'
 
-const userRepository = require('../repositories/userRepository')
-const AppError = require('../utils/AppError')
-const { generateId } = require('../utils/idHelper')
+import * as userRepository from '../repositories/userRepository.js'
+import AppError from '../utils/AppError.js'
+import { generateId } from '../utils/idHelper.js'
 
 async function createUser(payload) {
    const existingUser = await userRepository.findByEmail(payload.email)
@@ -54,7 +54,4 @@ function sanitizeUser(user) {
    }
 }
 
-module.exports = {
-   createUser,
-   getUserById,
-}
+export { createUser, getUserById }

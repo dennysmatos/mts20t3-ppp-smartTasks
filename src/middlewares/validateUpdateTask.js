@@ -1,6 +1,6 @@
-const AppError = require('../utils/AppError')
-const { allowedStatus } = require('../services/taskService')
-const { getUnknownFields } = require('../utils/validationHelper')
+import AppError from '../utils/AppError.js'
+import { allowedStatus } from '../services/taskService.js'
+import { getUnknownFields } from '../utils/validationHelper.js'
 
 function validateUpdateTask(request, _response, next) {
    const { title, description, status } = request.body
@@ -51,4 +51,4 @@ function validateUpdateTask(request, _response, next) {
    return next()
 }
 
-module.exports = validateUpdateTask
+export default validateUpdateTask

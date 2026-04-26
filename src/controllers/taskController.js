@@ -1,4 +1,4 @@
-const taskService = require('../services/taskService')
+import * as taskService from '../services/taskService.js'
 
 async function create(request, response, next) {
    try {
@@ -73,10 +73,4 @@ async function remove(request, response, next) {
    }
 }
 
-module.exports = {
-   create,
-   getById,
-   list,
-   remove,
-   update,
-}
+export { create, getById, list, remove, update }

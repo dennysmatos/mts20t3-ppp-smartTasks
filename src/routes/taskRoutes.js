@@ -1,10 +1,10 @@
-const express = require('express')
+import express from 'express'
 
-const taskController = require('../controllers/taskController')
-const authMiddleware = require('../middlewares/authMiddleware')
-const validateCreateTask = require('../middlewares/validateCreateTask')
-const validateTaskQuery = require('../middlewares/validateTaskQuery')
-const validateUpdateTask = require('../middlewares/validateUpdateTask')
+import * as taskController from '../controllers/taskController.js'
+import authMiddleware from '../middlewares/authMiddleware.js'
+import validateCreateTask from '../middlewares/validateCreateTask.js'
+import validateTaskQuery from '../middlewares/validateTaskQuery.js'
+import validateUpdateTask from '../middlewares/validateUpdateTask.js'
 
 const router = express.Router()
 
@@ -218,4 +218,4 @@ router.get('/:id', taskController.getById)
 router.patch('/:id', validateUpdateTask, taskController.update)
 router.delete('/:id', taskController.remove)
 
-module.exports = router
+export default router

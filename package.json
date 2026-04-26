@@ -9,6 +9,8 @@
       "test": "mocha --require test/setup.js test/**/*.test.js",
       "test:functional": "mocha --require test/setup.js test/integration/**/*.test.js",
       "coverage": "nyc --reporter=lcov --reporter=text-summary mocha --require test/setup.js test/integration/**/*.test.js",
+      "lint": "eslint .",
+      "lint:fix": "eslint . --fix",
       "reports": "npm run coverage",
       "prettier": "prettier --check ."
    },

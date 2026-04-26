@@ -1,6 +1,6 @@
-const taskRepository = require('../repositories/taskRepository')
-const AppError = require('../utils/AppError')
-const { generateId } = require('../utils/idHelper')
+import * as taskRepository from '../repositories/taskRepository.js'
+import AppError from '../utils/AppError.js'
+import { generateId } from '../utils/idHelper.js'
 
 const allowedStatus = ['pending', 'in_progress', 'done']
 
@@ -147,11 +147,4 @@ function paginateTasks(tasks, page, limit) {
    }
 }
 
-module.exports = {
-   allowedStatus,
-   createTask,
-   deleteTask,
-   getTaskById,
-   listTasksByUserId,
-   updateTask,
-}
+export { allowedStatus, createTask, deleteTask, getTaskById, listTasksByUserId, updateTask }

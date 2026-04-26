@@ -1,5 +1,8 @@
-const path = require('path')
-const swaggerJSDoc = require('swagger-jsdoc')
+import { fileURLToPath } from 'url'
+import { dirname, join } from 'path'
+import swaggerJSDoc from 'swagger-jsdoc'
+
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
 const options = {
    definition: {
@@ -289,7 +292,7 @@ const options = {
          },
       },
    },
-   apis: [path.join(__dirname, '../routes/*.js')],
+   apis: [join(__dirname, '../routes/*.js')],
 }
 
-module.exports = swaggerJSDoc(options)
+export default swaggerJSDoc(options)

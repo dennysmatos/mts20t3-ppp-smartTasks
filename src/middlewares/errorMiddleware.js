@@ -20,4 +20,4 @@ function errorMiddleware(error, _request, response, _next) {
    })
 }
 
-module.exports = errorMiddleware
+export default errorMiddleware

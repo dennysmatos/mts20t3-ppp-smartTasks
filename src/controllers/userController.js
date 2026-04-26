@@ -1,4 +1,4 @@
-const userService = require('../services/userService')
+import * as userService from '../services/userService.js'
 
 async function create(request, response, next) {
    try {
@@ -26,7 +26,4 @@ async function getAuthenticatedUser(request, response, next) {
    }
 }
 
-module.exports = {
-   create,
-   getAuthenticatedUser,
-}
+export { create, getAuthenticatedUser }

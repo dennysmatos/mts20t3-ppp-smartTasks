@@ -1,8 +1,8 @@
-const express = require('express')
+import express from 'express'
 
-const userController = require('../controllers/userController')
-const authMiddleware = require('../middlewares/authMiddleware')
-const validateCreateUser = require('../middlewares/validateCreateUser')
+import * as userController from '../controllers/userController.js'
+import authMiddleware from '../middlewares/authMiddleware.js'
+import validateCreateUser from '../middlewares/validateCreateUser.js'
 
 const router = express.Router()
 
@@ -72,4 +72,4 @@ router.post('/', validateCreateUser, userController.create)
  */
 router.get('/me', authMiddleware, userController.getAuthenticatedUser)
 
-module.exports = router
+export default router

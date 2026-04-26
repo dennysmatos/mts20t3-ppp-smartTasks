@@ -1,8 +1,10 @@
-const path = require('path')
+import { fileURLToPath } from 'url'
+import { dirname, join } from 'path'
 
-const { readJsonFile, writeJsonFile } = require('../utils/fileHelper')
+import { readJsonFile, writeJsonFile } from '../utils/fileHelper.js'
 
-const tasksFilePath = path.join(__dirname, '../data/tasks.json')
+const __dirname = dirname(fileURLToPath(import.meta.url))
+const tasksFilePath = join(__dirname, '../data/tasks.json')
 
 async function findAll() {
    return readJsonFile(tasksFilePath)
@@ -48,11 +50,4 @@ async function remove(taskId) {
    await writeJsonFile(tasksFilePath, filteredTasks)
 }
 
-module.exports = {
-   create,
-   findAll,
-   findById,
-   findByUserId,
-   remove,
-   update,
-}
+export { create, findAll, findById, findByUserId, remove, update }

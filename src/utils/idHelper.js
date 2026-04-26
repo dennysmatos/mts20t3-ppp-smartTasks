@@ -1,9 +1,7 @@
-const { randomUUID } = require('crypto')
+import { randomUUID } from 'crypto'
 
 function generateId() {
    return randomUUID()
 }
 
-module.exports = {
-   generateId,
-}
+export { generateId }

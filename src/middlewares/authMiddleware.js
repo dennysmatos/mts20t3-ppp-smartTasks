@@ -1,6 +1,6 @@
-const userRepository = require('../repositories/userRepository')
-const AppError = require('../utils/AppError')
-const { verifyToken } = require('../utils/jwtHelper')
+import * as userRepository from '../repositories/userRepository.js'
+import AppError from '../utils/AppError.js'
+import { verifyToken } from '../utils/jwtHelper.js'
 
 async function authMiddleware(request, _response, next) {
    try {
@@ -41,4 +41,4 @@ async function authMiddleware(request, _response, next) {
    }
 }
 
-module.exports = authMiddleware
+export default authMiddleware

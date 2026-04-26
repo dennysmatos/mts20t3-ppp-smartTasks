@@ -1,9 +1,9 @@
-const request = require('supertest')
-const { expect } = require('chai')
+import request from 'supertest'
+import { expect } from 'chai'
 
-const app = require('../../src/app')
-const { createUserAndGetToken } = require('../helpers/authHelper')
-const { resetDataFiles } = require('../helpers/testDataHelper')
+import app from '../../src/app.js'
+import { createUserAndGetToken } from '../helpers/authHelper.js'
+import { resetDataFiles } from '../helpers/testDataHelper.js'
 
 describe('GET /users/me', () => {
    beforeEach(async () => {

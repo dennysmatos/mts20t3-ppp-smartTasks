@@ -7,6 +7,4 @@ function check(_request, response) {
    })
 }
 
-module.exports = {
-   check,
-}
+export { check }

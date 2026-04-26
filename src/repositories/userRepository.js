@@ -1,8 +1,10 @@
-const path = require('path')
+import { fileURLToPath } from 'url'
+import { dirname, join } from 'path'
 
-const { readJsonFile, writeJsonFile } = require('../utils/fileHelper')
+import { readJsonFile, writeJsonFile } from '../utils/fileHelper.js'
 
-const usersFilePath = path.join(__dirname, '../data/users.json')
+const __dirname = dirname(fileURLToPath(import.meta.url))
+const usersFilePath = join(__dirname, '../data/users.json')
 
 async function findAll() {
    return readJsonFile(usersFilePath)
@@ -32,9 +34,4 @@ async function create(user) {
    return user
 }
 
-module.exports = {
-   create,
-   findAll,
-   findById,
-   findByEmail,
-}
+export { create, findAll, findById, findByEmail }

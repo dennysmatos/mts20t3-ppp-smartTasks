@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "node --watch src/server.js",
     "start": "node src/server.js",
-    "test": "mocha --require test/setup.js --recursive test/**/*.test.js"
+    "test": "mocha --require test/setup.cjs --recursive test/**/*.test.js",
+    "test:functional": "mocha --require test/setup.cjs --recursive test/**/*.test.js",
+    "prettier": "prettier --check ."
   },
   "keywords": [
     "qa",
@@ -21,7 +23,7 @@
   ],
   "author": "Dennys Matos",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git@github.com:dennysmatos/mts20t3-ppp-smartTasks.git"

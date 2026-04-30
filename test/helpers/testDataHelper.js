@@ -7,8 +7,8 @@ const usersFilePath = join(__dirname, '../../src/data/users.json');
 const tasksFilePath = join(__dirname, '../../src/data/tasks.json');
 
 async function resetDataFiles() {
-  await writeFile(usersFilePath, '[]');
-  await writeFile(tasksFilePath, '[]');
+  await writeFile(usersFilePath, '[]\n');
+  await writeFile(tasksFilePath, '[]\n');
 }
 
 export { resetDataFiles };

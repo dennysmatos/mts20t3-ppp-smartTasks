@@ -17,7 +17,7 @@ describe('POST /users', () => {
     await resetDataFiles();
   });
 
-  it('should create a user with hashed password', async () => {
+  it('deve criar um usuário com senha criptografada', async () => {
     const payload = {
       name: 'Maria Silva',
       email: 'maria@email.com',
@@ -29,7 +29,7 @@ describe('POST /users', () => {
     const savedUsers = JSON.parse(await readFile(usersFilePath, 'utf-8'));
 
     expect(response.status).to.equal(201);
-    expect(response.body.message).to.equal('User created successfully');
+    expect(response.body.message).to.equal('Usuário criado com sucesso');
     expect(response.body.data).to.include({
       name: payload.name,
       email: payload.email,
@@ -42,7 +42,7 @@ describe('POST /users', () => {
     ).to.equal(true);
   });
 
-  it('should return conflict when email is already registered', async () => {
+  it('deve retornar conflito quando o e-mail já está cadastrado', async () => {
     const payload = {
       name: 'Maria Silva',
       email: 'maria@email.com',
@@ -54,12 +54,12 @@ describe('POST /users', () => {
 
     expect(response.status).to.equal(409);
     expect(response.body).to.deep.equal({
-      message: 'Email is already registered',
+      message: 'E-mail já está cadastrado',
       errors: [],
     });
   });
 
-  it('should return validation error when password is too short', async () => {
+  it('deve retornar erro de validação quando a senha é curta demais', async () => {
     const payload = {
       name: 'Maria Silva',
       email: 'maria@email.com',
@@ -70,8 +70,8 @@ describe('POST /users', () => {
 
     expect(response.status).to.equal(400);
     expect(response.body).to.deep.equal({
-      message: 'Validation error',
-      errors: ['password must be at least 6 characters long'],
+      message: 'Erro de validação',
+      errors: ['a senha deve ter pelo menos 6 caracteres'],
     });
   });
 });

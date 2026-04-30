@@ -5,18 +5,18 @@ import app from '../../src/app.js';
 import { createUserAndGetToken } from '../helpers/authHelper.js';
 import { resetDataFiles } from '../helpers/testDataHelper.js';
 
-describe('Tasks routes', () => {
+describe('Rotas de Tarefas', () => {
   beforeEach(async () => {
     await resetDataFiles();
   });
 
   describe('POST /tasks', () => {
-    it('should create a task for the authenticated user', async () => {
+    it('deve criar uma tarefa para o usuário autenticado', async () => {
       const { token } = await createUserAndGetToken();
 
       const payload = {
-        title: 'Study API testing',
-        description: 'Practice integration tests with Supertest',
+        title: 'Estudar testes de API',
+        description: 'Praticar testes de integração com Supertest',
         status: 'pending',
       };
 
@@ -26,85 +26,85 @@ describe('Tasks routes', () => {
         .send(payload);
 
       expect(response.status).to.equal(201);
-      expect(response.body.message).to.equal('Task created successfully');
+      expect(response.body.message).to.equal('Tarefa criada com sucesso');
       expect(response.body.data).to.include(payload);
       expect(response.body.data.userId).to.be.a('string');
       expect(response.body.data.id).to.be.a('string');
     });
 
-    it('should return unauthorized when token is missing', async () => {
+    it('deve retornar não autorizado quando o token está ausente', async () => {
       const response = await request(app).post('/tasks').send({
-        title: 'Study API testing',
-        description: 'Practice integration tests with Supertest',
+        title: 'Estudar testes de API',
+        description: 'Praticar testes de integração com Supertest',
         status: 'pending',
       });
 
       expect(response.status).to.equal(401);
       expect(response.body).to.deep.equal({
-        message: 'Authentication token is required',
+        message: 'Token de autenticação é obrigatório',
         errors: [],
       });
     });
 
-    it('should return unauthorized when token is invalid', async () => {
+    it('deve retornar não autorizado quando o token é inválido', async () => {
       const response = await request(app)
         .post('/tasks')
-        .set('Authorization', 'Bearer invalid-token')
+        .set('Authorization', 'Bearer token-invalido')
         .send({
-          title: 'Study API testing',
-          description: 'Practice integration tests with Supertest',
+          title: 'Estudar testes de API',
+          description: 'Praticar testes de integração com Supertest',
           status: 'pending',
         });
 
       expect(response.status).to.equal(401);
       expect(response.body).to.deep.equal({
-        message: 'Invalid authentication token',
+        message: 'Token de autenticação inválido',
         errors: [],
       });
     });
 
-    it('should return validation error when status is invalid', async () => {
+    it('deve retornar erro de validação quando o status é inválido', async () => {
       const { token } = await createUserAndGetToken();
 
       const response = await request(app)
         .post('/tasks')
         .set('Authorization', `Bearer ${token}`)
         .send({
-          title: 'Study API testing',
-          description: 'Practice integration tests with Supertest',
+          title: 'Estudar testes de API',
+          description: 'Praticar testes de integração com Supertest',
           status: 'archived',
         });
 
       expect(response.status).to.equal(400);
       expect(response.body).to.deep.equal({
-        message: 'Validation error',
-        errors: ['status must be one of: pending, in_progress, done'],
+        message: 'Erro de validação',
+        errors: ['status deve ser um dos seguintes: pending, in_progress, done'],
       });
     });
 
-    it('should return validation error when payload contains unknown fields', async () => {
+    it('deve retornar erro de validação quando o payload contém campos desconhecidos', async () => {
       const { token } = await createUserAndGetToken();
 
       const response = await request(app)
         .post('/tasks')
         .set('Authorization', `Bearer ${token}`)
         .send({
-          title: 'Study API testing',
-          description: 'Practice integration tests with Supertest',
+          title: 'Estudar testes de API',
+          description: 'Praticar testes de integração com Supertest',
           status: 'pending',
           priority: 'high',
         });
 
       expect(response.status).to.equal(400);
       expect(response.body).to.deep.equal({
-        message: 'Validation error',
-        errors: ['unknown fields are not allowed: priority'],
+        message: 'Erro de validação',
+        errors: ['campos desconhecidos não são permitidos: priority'],
       });
     });
   });
 
   describe('GET /tasks', () => {
-    it('should list only tasks from the authenticated user', async () => {
+    it('deve listar apenas as tarefas do usuário autenticado', async () => {
       const mariaAuth = await createUserAndGetToken();
       const joaoAuth = await createUserAndGetToken({
         name: 'Joao Souza',
@@ -115,8 +115,8 @@ describe('Tasks routes', () => {
         .post('/tasks')
         .set('Authorization', `Bearer ${mariaAuth.token}`)
         .send({
-          title: 'Maria task',
-          description: 'Owned by Maria',
+          title: 'Tarefa da Maria',
+          description: 'Pertence à Maria',
           status: 'pending',
         });
 
@@ -124,8 +124,8 @@ describe('Tasks routes', () => {
         .post('/tasks')
         .set('Authorization', `Bearer ${joaoAuth.token}`)
         .send({
-          title: 'Joao task',
-          description: 'Owned by Joao',
+          title: 'Tarefa do João',
+          description: 'Pertence ao João',
           status: 'done',
         });
 
@@ -134,7 +134,7 @@ describe('Tasks routes', () => {
         .set('Authorization', `Bearer ${mariaAuth.token}`);
 
       expect(response.status).to.equal(200);
-      expect(response.body.message).to.equal('Tasks retrieved successfully');
+      expect(response.body.message).to.equal('Tarefas retornadas com sucesso');
       expect(response.body.data).to.have.lengthOf(1);
       expect(response.body.meta).to.deep.equal({
         page: 1,
@@ -143,21 +143,21 @@ describe('Tasks routes', () => {
         totalPages: 1,
       });
       expect(response.body.data[0]).to.include({
-        title: 'Maria task',
-        description: 'Owned by Maria',
+        title: 'Tarefa da Maria',
+        description: 'Pertence à Maria',
         status: 'pending',
       });
     });
 
-    it('should filter tasks by status', async () => {
+    it('deve filtrar tarefas por status', async () => {
       const { token } = await createUserAndGetToken();
 
       await request(app)
         .post('/tasks')
         .set('Authorization', `Bearer ${token}`)
         .send({
-          title: 'Pending task',
-          description: 'Still open',
+          title: 'Tarefa pendente',
+          description: 'Ainda em aberto',
           status: 'pending',
         });
 
@@ -165,8 +165,8 @@ describe('Tasks routes', () => {
         .post('/tasks')
         .set('Authorization', `Bearer ${token}`)
         .send({
-          title: 'Done task',
-          description: 'Already completed',
+          title: 'Tarefa concluída',
+          description: 'Já finalizada',
           status: 'done',
         });
 
@@ -178,20 +178,20 @@ describe('Tasks routes', () => {
       expect(response.body.data).to.have.lengthOf(1);
       expect(response.body.meta.totalItems).to.equal(1);
       expect(response.body.data[0]).to.include({
-        title: 'Done task',
+        title: 'Tarefa concluída',
         status: 'done',
       });
     });
 
-    it('should filter tasks by search term in a case-insensitive way', async () => {
+    it('deve filtrar tarefas por termo de busca de forma case-insensitive', async () => {
       const { token } = await createUserAndGetToken();
 
       await request(app)
         .post('/tasks')
         .set('Authorization', `Bearer ${token}`)
         .send({
-          title: 'Study API testing',
-          description: 'Practice with Supertest',
+          title: 'Estudar testes de API',
+          description: 'Praticar com Supertest',
           status: 'pending',
         });
 
@@ -199,8 +199,8 @@ describe('Tasks routes', () => {
         .post('/tasks')
         .set('Authorization', `Bearer ${token}`)
         .send({
-          title: 'Read documentation',
-          description: 'Swagger reference',
+          title: 'Ler documentação',
+          description: 'Referência do Swagger',
           status: 'done',
         });
 
@@ -212,19 +212,19 @@ describe('Tasks routes', () => {
       expect(response.body.data).to.have.lengthOf(1);
       expect(response.body.meta.totalItems).to.equal(1);
       expect(response.body.data[0]).to.include({
-        title: 'Study API testing',
+        title: 'Estudar testes de API',
       });
     });
 
-    it('should combine status and search filters', async () => {
+    it('deve combinar filtros de status e busca textual', async () => {
       const { token } = await createUserAndGetToken();
 
       await request(app)
         .post('/tasks')
         .set('Authorization', `Bearer ${token}`)
         .send({
-          title: 'Review API tests',
-          description: 'Pending review',
+          title: 'Revisar testes de API',
+          description: 'Revisão pendente',
           status: 'pending',
         });
 
@@ -232,25 +232,25 @@ describe('Tasks routes', () => {
         .post('/tasks')
         .set('Authorization', `Bearer ${token}`)
         .send({
-          title: 'Review API tests',
-          description: 'Completed review',
+          title: 'Revisar testes de API',
+          description: 'Revisão concluída',
           status: 'done',
         });
 
       const response = await request(app)
-        .get('/tasks?status=done&search=review')
+        .get('/tasks?status=done&search=revisar')
         .set('Authorization', `Bearer ${token}`);
 
       expect(response.status).to.equal(200);
       expect(response.body.data).to.have.lengthOf(1);
       expect(response.body.meta.totalItems).to.equal(1);
       expect(response.body.data[0]).to.include({
-        title: 'Review API tests',
+        title: 'Revisar testes de API',
         status: 'done',
       });
     });
 
-    it('should sort tasks by title in ascending order', async () => {
+    it('deve ordenar tarefas por título em ordem ascendente', async () => {
       const { token } = await createUserAndGetToken();
 
       await request(app)
@@ -258,7 +258,7 @@ describe('Tasks routes', () => {
         .set('Authorization', `Bearer ${token}`)
         .send({
           title: 'Zulu task',
-          description: 'Last alphabetically',
+          description: 'Último alfabeticamente',
           status: 'pending',
         });
 
@@ -267,7 +267,7 @@ describe('Tasks routes', () => {
         .set('Authorization', `Bearer ${token}`)
         .send({
           title: 'Alpha task',
-          description: 'First alphabetically',
+          description: 'Primeiro alfabeticamente',
           status: 'done',
         });
 
@@ -281,15 +281,15 @@ describe('Tasks routes', () => {
       expect(response.body.data[1].title).to.equal('Zulu task');
     });
 
-    it('should paginate tasks', async () => {
+    it('deve paginar as tarefas', async () => {
       const { token } = await createUserAndGetToken();
 
       await request(app)
         .post('/tasks')
         .set('Authorization', `Bearer ${token}`)
         .send({
-          title: 'Task 1',
-          description: 'First task',
+          title: 'Tarefa 1',
+          description: 'Primeira tarefa',
           status: 'pending',
         });
 
@@ -297,8 +297,8 @@ describe('Tasks routes', () => {
         .post('/tasks')
         .set('Authorization', `Bearer ${token}`)
         .send({
-          title: 'Task 2',
-          description: 'Second task',
+          title: 'Tarefa 2',
+          description: 'Segunda tarefa',
           status: 'pending',
         });
 
@@ -306,8 +306,8 @@ describe('Tasks routes', () => {
         .post('/tasks')
         .set('Authorization', `Bearer ${token}`)
         .send({
-          title: 'Task 3',
-          description: 'Third task',
+          title: 'Tarefa 3',
+          description: 'Terceira tarefa',
           status: 'done',
         });
 
@@ -317,7 +317,7 @@ describe('Tasks routes', () => {
 
       expect(response.status).to.equal(200);
       expect(response.body.data).to.have.lengthOf(1);
-      expect(response.body.data[0].title).to.equal('Task 2');
+      expect(response.body.data[0].title).to.equal('Tarefa 2');
       expect(response.body.meta).to.deep.equal({
         page: 2,
         limit: 1,
@@ -326,7 +326,7 @@ describe('Tasks routes', () => {
       });
     });
 
-    it('should return validation error when status filter is invalid', async () => {
+    it('deve retornar erro de validação quando o filtro de status é inválido', async () => {
       const { token } = await createUserAndGetToken();
 
       const response = await request(app)
@@ -335,12 +335,14 @@ describe('Tasks routes', () => {
 
       expect(response.status).to.equal(400);
       expect(response.body).to.deep.equal({
-        message: 'Validation error',
-        errors: ['status query must be one of: pending, in_progress, done'],
+        message: 'Erro de validação',
+        errors: [
+          'o parâmetro status deve ser um dos seguintes: pending, in_progress, done',
+        ],
       });
     });
 
-    it('should return validation error when search query is empty', async () => {
+    it('deve retornar erro de validação quando o parâmetro search está vazio', async () => {
       const { token } = await createUserAndGetToken();
 
       const response = await request(app)
@@ -349,12 +351,12 @@ describe('Tasks routes', () => {
 
       expect(response.status).to.equal(400);
       expect(response.body).to.deep.equal({
-        message: 'Validation error',
-        errors: ['search query cannot be empty'],
+        message: 'Erro de validação',
+        errors: ['o parâmetro search não pode ser vazio'],
       });
     });
 
-    it('should return validation error when unknown query params are provided', async () => {
+    it('deve retornar erro de validação quando parâmetros de query desconhecidos são fornecidos', async () => {
       const { token } = await createUserAndGetToken();
 
       const response = await request(app)
@@ -363,12 +365,12 @@ describe('Tasks routes', () => {
 
       expect(response.status).to.equal(400);
       expect(response.body).to.deep.equal({
-        message: 'Validation error',
-        errors: ['unknown query params are not allowed: priority'],
+        message: 'Erro de validação',
+        errors: ['parâmetros de query desconhecidos não são permitidos: priority'],
       });
     });
 
-    it('should return validation error when sortBy is invalid', async () => {
+    it('deve retornar erro de validação quando o sortBy é inválido', async () => {
       const { token } = await createUserAndGetToken();
 
       const response = await request(app)
@@ -377,12 +379,14 @@ describe('Tasks routes', () => {
 
       expect(response.status).to.equal(400);
       expect(response.body).to.deep.equal({
-        message: 'Validation error',
-        errors: ['sortBy query must be one of: createdAt, updatedAt, title'],
+        message: 'Erro de validação',
+        errors: [
+          'o parâmetro sortBy deve ser um dos seguintes: createdAt, updatedAt, title',
+        ],
       });
     });
 
-    it('should return validation error when order is invalid', async () => {
+    it('deve retornar erro de validação quando o order é inválido', async () => {
       const { token } = await createUserAndGetToken();
 
       const response = await request(app)
@@ -391,12 +395,12 @@ describe('Tasks routes', () => {
 
       expect(response.status).to.equal(400);
       expect(response.body).to.deep.equal({
-        message: 'Validation error',
-        errors: ['order query must be one of: asc, desc'],
+        message: 'Erro de validação',
+        errors: ['o parâmetro order deve ser um dos seguintes: asc, desc'],
       });
     });
 
-    it('should return validation error when page is invalid', async () => {
+    it('deve retornar erro de validação quando o page é inválido', async () => {
       const { token } = await createUserAndGetToken();
 
       const response = await request(app)
@@ -405,12 +409,12 @@ describe('Tasks routes', () => {
 
       expect(response.status).to.equal(400);
       expect(response.body).to.deep.equal({
-        message: 'Validation error',
-        errors: ['page query must be an integer greater than or equal to 1'],
+        message: 'Erro de validação',
+        errors: ['o parâmetro page deve ser um inteiro maior ou igual a 1'],
       });
     });
 
-    it('should return validation error when limit is invalid', async () => {
+    it('deve retornar erro de validação quando o limit é inválido', async () => {
       const { token } = await createUserAndGetToken();
 
       const response = await request(app)
@@ -419,22 +423,22 @@ describe('Tasks routes', () => {
 
       expect(response.status).to.equal(400);
       expect(response.body).to.deep.equal({
-        message: 'Validation error',
-        errors: ['limit query must be an integer between 1 and 100'],
+        message: 'Erro de validação',
+        errors: ['o parâmetro limit deve ser um inteiro entre 1 e 100'],
       });
     });
   });
 
   describe('GET /tasks/:id', () => {
-    it('should return a task that belongs to the authenticated user', async () => {
+    it('deve retornar uma tarefa que pertence ao usuário autenticado', async () => {
       const { token } = await createUserAndGetToken();
 
       const createdTaskResponse = await request(app)
         .post('/tasks')
         .set('Authorization', `Bearer ${token}`)
         .send({
-          title: 'Study mocks',
-          description: 'Review test doubles',
+          title: 'Estudar mocks',
+          description: 'Revisar test doubles',
           status: 'pending',
         });
 
@@ -443,15 +447,15 @@ describe('Tasks routes', () => {
         .set('Authorization', `Bearer ${token}`);
 
       expect(response.status).to.equal(200);
-      expect(response.body.message).to.equal('Task retrieved successfully');
+      expect(response.body.message).to.equal('Tarefa retornada com sucesso');
       expect(response.body.data).to.include({
-        title: 'Study mocks',
-        description: 'Review test doubles',
+        title: 'Estudar mocks',
+        description: 'Revisar test doubles',
         status: 'pending',
       });
     });
 
-    it('should return not found when the task belongs to another user', async () => {
+    it('deve retornar não encontrado quando a tarefa pertence a outro usuário', async () => {
       const mariaAuth = await createUserAndGetToken();
       const joaoAuth = await createUserAndGetToken({
         name: 'Joao Souza',
@@ -462,8 +466,8 @@ describe('Tasks routes', () => {
         .post('/tasks')
         .set('Authorization', `Bearer ${mariaAuth.token}`)
         .send({
-          title: 'Maria private task',
-          description: 'Owned by Maria',
+          title: 'Tarefa privada da Maria',
+          description: 'Pertence à Maria',
           status: 'pending',
         });
 
@@ -473,36 +477,36 @@ describe('Tasks routes', () => {
 
       expect(response.status).to.equal(404);
       expect(response.body).to.deep.equal({
-        message: 'Task not found',
+        message: 'Tarefa não encontrada',
         errors: [],
       });
     });
 
-    it('should return not found when the task id does not exist', async () => {
+    it('deve retornar não encontrado quando o ID da tarefa não existe', async () => {
       const { token } = await createUserAndGetToken();
 
       const response = await request(app)
-        .get('/tasks/non-existent-task-id')
+        .get('/tasks/id-de-tarefa-inexistente')
         .set('Authorization', `Bearer ${token}`);
 
       expect(response.status).to.equal(404);
       expect(response.body).to.deep.equal({
-        message: 'Task not found',
+        message: 'Tarefa não encontrada',
         errors: [],
       });
     });
   });
 
   describe('PATCH /tasks/:id', () => {
-    it('should partially update a task', async () => {
+    it('deve atualizar parcialmente uma tarefa', async () => {
       const { token } = await createUserAndGetToken();
 
       const createdTaskResponse = await request(app)
         .post('/tasks')
         .set('Authorization', `Bearer ${token}`)
         .send({
-          title: 'Study API testing',
-          description: 'Initial description',
+          title: 'Estudar testes de API',
+          description: 'Descrição inicial',
           status: 'pending',
         });
 
@@ -514,23 +518,23 @@ describe('Tasks routes', () => {
         });
 
       expect(response.status).to.equal(200);
-      expect(response.body.message).to.equal('Task updated successfully');
+      expect(response.body.message).to.equal('Tarefa atualizada com sucesso');
       expect(response.body.data).to.include({
-        title: 'Study API testing',
-        description: 'Initial description',
+        title: 'Estudar testes de API',
+        description: 'Descrição inicial',
         status: 'done',
       });
     });
 
-    it('should return validation error when payload is empty', async () => {
+    it('deve retornar erro de validação quando o payload está vazio', async () => {
       const { token } = await createUserAndGetToken();
 
       const createdTaskResponse = await request(app)
         .post('/tasks')
         .set('Authorization', `Bearer ${token}`)
         .send({
-          title: 'Study API testing',
-          description: 'Initial description',
+          title: 'Estudar testes de API',
+          description: 'Descrição inicial',
           status: 'pending',
         });
 
@@ -541,20 +545,20 @@ describe('Tasks routes', () => {
 
       expect(response.status).to.equal(400);
       expect(response.body).to.deep.equal({
-        message: 'Validation error',
-        errors: ['at least one valid field must be provided'],
+        message: 'Erro de validação',
+        errors: ['pelo menos um campo válido deve ser fornecido'],
       });
     });
 
-    it('should return validation error when payload contains unknown fields', async () => {
+    it('deve retornar erro de validação quando o payload contém campos desconhecidos', async () => {
       const { token } = await createUserAndGetToken();
 
       const createdTaskResponse = await request(app)
         .post('/tasks')
         .set('Authorization', `Bearer ${token}`)
         .send({
-          title: 'Study API testing',
-          description: 'Initial description',
+          title: 'Estudar testes de API',
+          description: 'Descrição inicial',
           status: 'pending',
         });
 
@@ -568,12 +572,12 @@ describe('Tasks routes', () => {
 
       expect(response.status).to.equal(400);
       expect(response.body).to.deep.equal({
-        message: 'Validation error',
-        errors: ['unknown fields are not allowed: priority'],
+        message: 'Erro de validação',
+        errors: ['campos desconhecidos não são permitidos: priority'],
       });
     });
 
-    it("should return not found when trying to update another user's task", async () => {
+    it('deve retornar não encontrado ao tentar atualizar a tarefa de outro usuário', async () => {
       const mariaAuth = await createUserAndGetToken();
       const joaoAuth = await createUserAndGetToken({
         name: 'Joao Souza',
@@ -584,8 +588,8 @@ describe('Tasks routes', () => {
         .post('/tasks')
         .set('Authorization', `Bearer ${mariaAuth.token}`)
         .send({
-          title: 'Maria private task',
-          description: 'Owned by Maria',
+          title: 'Tarefa privada da Maria',
+          description: 'Pertence à Maria',
           status: 'pending',
         });
 
@@ -598,16 +602,16 @@ describe('Tasks routes', () => {
 
       expect(response.status).to.equal(404);
       expect(response.body).to.deep.equal({
-        message: 'Task not found',
+        message: 'Tarefa não encontrada',
         errors: [],
       });
     });
 
-    it('should return not found when trying to update a non-existent task', async () => {
+    it('deve retornar não encontrado ao tentar atualizar uma tarefa inexistente', async () => {
       const { token } = await createUserAndGetToken();
 
       const response = await request(app)
-        .patch('/tasks/non-existent-task-id')
+        .patch('/tasks/id-de-tarefa-inexistente')
         .set('Authorization', `Bearer ${token}`)
         .send({
           status: 'done',
@@ -615,22 +619,22 @@ describe('Tasks routes', () => {
 
       expect(response.status).to.equal(404);
       expect(response.body).to.deep.equal({
-        message: 'Task not found',
+        message: 'Tarefa não encontrada',
         errors: [],
       });
     });
   });
 
   describe('DELETE /tasks/:id', () => {
-    it('should delete a task that belongs to the authenticated user', async () => {
+    it('deve excluir uma tarefa que pertence ao usuário autenticado', async () => {
       const { token } = await createUserAndGetToken();
 
       const createdTaskResponse = await request(app)
         .post('/tasks')
         .set('Authorization', `Bearer ${token}`)
         .send({
-          title: 'Study API testing',
-          description: 'Task to delete',
+          title: 'Estudar testes de API',
+          description: 'Tarefa a excluir',
           status: 'pending',
         });
 
@@ -647,7 +651,7 @@ describe('Tasks routes', () => {
       expect(getResponse.status).to.equal(404);
     });
 
-    it("should return not found when trying to delete another user's task", async () => {
+    it('deve retornar não encontrado ao tentar excluir a tarefa de outro usuário', async () => {
       const mariaAuth = await createUserAndGetToken();
       const joaoAuth = await createUserAndGetToken({
         name: 'Joao Souza',
@@ -658,8 +662,8 @@ describe('Tasks routes', () => {
         .post('/tasks')
         .set('Authorization', `Bearer ${mariaAuth.token}`)
         .send({
-          title: 'Maria private task',
-          description: 'Owned by Maria',
+          title: 'Tarefa privada da Maria',
+          description: 'Pertence à Maria',
           status: 'pending',
         });
 
@@ -669,21 +673,21 @@ describe('Tasks routes', () => {
 
       expect(response.status).to.equal(404);
       expect(response.body).to.deep.equal({
-        message: 'Task not found',
+        message: 'Tarefa não encontrada',
         errors: [],
       });
     });
 
-    it('should return not found when trying to delete a non-existent task', async () => {
+    it('deve retornar não encontrado ao tentar excluir uma tarefa inexistente', async () => {
       const { token } = await createUserAndGetToken();
 
       const response = await request(app)
-        .delete('/tasks/non-existent-task-id')
+        .delete('/tasks/id-de-tarefa-inexistente')
         .set('Authorization', `Bearer ${token}`);
 
       expect(response.status).to.equal(404);
       expect(response.body).to.deep.equal({
-        message: 'Task not found',
+        message: 'Tarefa não encontrada',
         errors: [],
       });
     });

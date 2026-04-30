@@ -10,10 +10,10 @@ const router = express.Router();
  *   get:
  *     tags:
  *       - Health
- *     summary: Check API availability
+ *     summary: Verificar disponibilidade da API
  *     responses:
  *       200:
- *         description: API is running
+ *         description: API em execução
  *         content:
  *           application/json:
  *             schema:

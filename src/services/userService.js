@@ -8,7 +8,7 @@ async function createUser(payload) {
   const existingUser = await userRepository.findByEmail(payload.email);
 
   if (existingUser) {
-    throw new AppError('Email is already registered', 409);
+    throw new AppError('E-mail já está cadastrado', 409);
   }
 
   const now = new Date().toISOString();
@@ -38,7 +38,7 @@ async function getUserById(userId) {
   const user = await userRepository.findById(userId);
 
   if (!user) {
-    throw new AppError('User not found', 404);
+    throw new AppError('Usuário não encontrado', 404);
   }
 
   return sanitizeUser(user);

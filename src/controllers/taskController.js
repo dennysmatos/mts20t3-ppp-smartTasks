@@ -5,7 +5,7 @@ async function create(request, response, next) {
     const task = await taskService.createTask(request.user.id, request.body);
 
     return response.status(201).json({
-      message: 'Task created successfully',
+      message: 'Tarefa criada com sucesso',
       data: task,
     });
   } catch (error) {
@@ -21,7 +21,7 @@ async function list(request, response, next) {
     );
 
     return response.status(200).json({
-      message: 'Tasks retrieved successfully',
+      message: 'Tarefas retornadas com sucesso',
       data: result.data,
       meta: result.meta,
     });
@@ -38,7 +38,7 @@ async function getById(request, response, next) {
     );
 
     return response.status(200).json({
-      message: 'Task retrieved successfully',
+      message: 'Tarefa retornada com sucesso',
       data: task,
     });
   } catch (error) {
@@ -55,7 +55,7 @@ async function update(request, response, next) {
     );
 
     return response.status(200).json({
-      message: 'Task updated successfully',
+      message: 'Tarefa atualizada com sucesso',
       data: task,
     });
   } catch (error) {

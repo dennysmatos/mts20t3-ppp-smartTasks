@@ -3,7 +3,7 @@ import AppError from '../utils/AppError.js';
 function notFoundMiddleware(request, _response, next) {
   return next(
     new AppError(
-      `Route ${request.method} ${request.originalUrl} not found`,
+      `Rota ${request.method} ${request.originalUrl} não encontrada`,
       404
     )
   );

@@ -14,38 +14,38 @@ function validateUpdateTask(request, _response, next) {
 
   if (receivedFields.length === 0 || !hasAtLeastOneAllowedField) {
     return next(
-      new AppError('Validation error', 400, [
-        'at least one valid field must be provided',
+      new AppError('Erro de validação', 400, [
+        'pelo menos um campo válido deve ser fornecido',
       ])
     );
   }
 
   if (unknownFields.length > 0) {
-    errors.push(`unknown fields are not allowed: ${unknownFields.join(', ')}`);
+    errors.push(`campos desconhecidos não são permitidos: ${unknownFields.join(', ')}`);
   }
 
   if (Object.hasOwn(request.body, 'title')) {
     if (typeof title !== 'string' || !title.trim()) {
-      errors.push('title cannot be empty');
+      errors.push('título não pode ser vazio');
     }
   }
 
   if (Object.hasOwn(request.body, 'description')) {
     if (typeof description !== 'string' || !description.trim()) {
-      errors.push('description cannot be empty');
+      errors.push('descrição não pode ser vazia');
     }
   }
 
   if (Object.hasOwn(request.body, 'status')) {
     if (typeof status !== 'string' || !status.trim()) {
-      errors.push('status cannot be empty');
+      errors.push('status não pode ser vazio');
     } else if (!allowedStatus.includes(status)) {
-      errors.push('status must be one of: pending, in_progress, done');
+      errors.push('status deve ser um dos seguintes: pending, in_progress, done');
     }
   }
 
   if (errors.length > 0) {
-    return next(new AppError('Validation error', 400, errors));
+    return next(new AppError('Erro de validação', 400, errors));
   }
 
   return next();

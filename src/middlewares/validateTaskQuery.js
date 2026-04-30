@@ -19,7 +19,7 @@ function validateTaskQuery(request, _response, next) {
 
   if (unknownFields.length > 0) {
     errors.push(
-      `unknown query params are not allowed: ${unknownFields.join(', ')}`
+      `parâmetros de query desconhecidos não são permitidos: ${unknownFields.join(', ')}`
     );
   }
 
@@ -28,12 +28,12 @@ function validateTaskQuery(request, _response, next) {
     status.trim() &&
     !allowedStatus.includes(status.trim())
   ) {
-    errors.push('status query must be one of: pending, in_progress, done');
+    errors.push('o parâmetro status deve ser um dos seguintes: pending, in_progress, done');
   }
 
   if (Object.hasOwn(request.query, 'search')) {
     if (typeof search !== 'string' || !search.trim()) {
-      errors.push('search query cannot be empty');
+      errors.push('o parâmetro search não pode ser vazio');
     }
   }
 
@@ -42,7 +42,7 @@ function validateTaskQuery(request, _response, next) {
       typeof sortBy !== 'string' ||
       !allowedSortFields.includes(sortBy.trim())
     ) {
-      errors.push('sortBy query must be one of: createdAt, updatedAt, title');
+      errors.push('o parâmetro sortBy deve ser um dos seguintes: createdAt, updatedAt, title');
     }
   }
 
@@ -51,7 +51,7 @@ function validateTaskQuery(request, _response, next) {
       typeof order !== 'string' ||
       !allowedOrderValues.includes(order.trim())
     ) {
-      errors.push('order query must be one of: asc, desc');
+      errors.push('o parâmetro order deve ser um dos seguintes: asc, desc');
     }
   }
 
@@ -59,7 +59,7 @@ function validateTaskQuery(request, _response, next) {
     const parsedPage = Number(page);
 
     if (!Number.isInteger(parsedPage) || parsedPage < 1) {
-      errors.push('page query must be an integer greater than or equal to 1');
+      errors.push('o parâmetro page deve ser um inteiro maior ou igual a 1');
     }
   }
 
@@ -71,12 +71,12 @@ function validateTaskQuery(request, _response, next) {
       parsedLimit < 1 ||
       parsedLimit > 100
     ) {
-      errors.push('limit query must be an integer between 1 and 100');
+      errors.push('o parâmetro limit deve ser um inteiro entre 1 e 100');
     }
   }
 
   if (errors.length > 0) {
-    return next(new AppError('Validation error', 400, errors));
+    return next(new AppError('Erro de validação', 400, errors));
   }
 
   return next();

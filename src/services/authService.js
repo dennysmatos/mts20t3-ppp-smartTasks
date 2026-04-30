@@ -9,13 +9,13 @@ async function login(payload) {
   const user = await userRepository.findByEmail(normalizedEmail);
 
   if (!user) {
-    throw new AppError('Invalid credentials', 401);
+    throw new AppError('Credenciais inválidas', 401);
   }
 
   const isPasswordValid = await bcrypt.compare(payload.password, user.password);
 
   if (!isPasswordValid) {
-    throw new AppError('Invalid credentials', 401);
+    throw new AppError('Credenciais inválidas', 401);
   }
 
   const token = generateToken({

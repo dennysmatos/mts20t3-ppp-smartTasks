@@ -5,7 +5,7 @@ async function create(request, response, next) {
     const user = await userService.createUser(request.body);
 
     return response.status(201).json({
-      message: 'User created successfully',
+      message: 'Usuário criado com sucesso',
       data: user,
     });
   } catch (error) {
@@ -18,7 +18,7 @@ async function getAuthenticatedUser(request, response, next) {
     const user = await userService.getUserById(request.user.id);
 
     return response.status(200).json({
-      message: 'Authenticated user retrieved successfully',
+      message: 'Usuário autenticado retornado com sucesso',
       data: user,
     });
   } catch (error) {

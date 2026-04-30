@@ -7,20 +7,20 @@ async function authMiddleware(request, _response, next) {
     const authorization = request.headers.authorization;
 
     if (!authorization) {
-      throw new AppError('Authentication token is required', 401);
+      throw new AppError('Token de autenticação é obrigatório', 401);
     }
 
     const [scheme, token] = authorization.split(' ');
 
     if (scheme !== 'Bearer' || !token) {
-      throw new AppError('Invalid authentication token', 401);
+      throw new AppError('Token de autenticação inválido', 401);
     }
 
     const decodedToken = verifyToken(token);
     const user = await userRepository.findById(decodedToken.sub);
 
     if (!user) {
-      throw new AppError('Invalid authentication token', 401);
+      throw new AppError('Token de autenticação inválido', 401);
     }
 
     request.user = {
@@ -34,7 +34,7 @@ async function authMiddleware(request, _response, next) {
       error.name === 'JsonWebTokenError' ||
       error.name === 'TokenExpiredError'
     ) {
-      return next(new AppError('Invalid authentication token', 401));
+      return next(new AppError('Token de autenticação inválido', 401));
     }
 
     return next(error);

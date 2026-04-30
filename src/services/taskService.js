@@ -61,7 +61,7 @@ async function getTaskById(userId, taskId) {
   const task = await taskRepository.findById(taskId);
 
   if (!task || task.userId !== userId) {
-    throw new AppError('Task not found', 404);
+    throw new AppError('Tarefa não encontrada', 404);
   }
 
   return task;

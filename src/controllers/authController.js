@@ -5,7 +5,7 @@ async function login(request, response, next) {
     const authData = await authService.login(request.body);
 
     return response.status(200).json({
-      message: 'Login successful',
+      message: 'Login realizado com sucesso',
       data: authData,
     });
   } catch (error) {

@@ -78,7 +78,9 @@ describe('Rotas de Tarefas', () => {
       expect(response.status).to.equal(400);
       expect(response.body).to.deep.equal({
         message: 'Erro de validação',
-        errors: ['status deve ser um dos seguintes: pending, in_progress, done'],
+        errors: [
+          'status deve ser um dos seguintes: pending, in_progress, done',
+        ],
       });
     });
 
@@ -366,7 +368,9 @@ describe('Rotas de Tarefas', () => {
       expect(response.status).to.equal(400);
       expect(response.body).to.deep.equal({
         message: 'Erro de validação',
-        errors: ['parâmetros de query desconhecidos não são permitidos: priority'],
+        errors: [
+          'parâmetros de query desconhecidos não são permitidos: priority',
+        ],
       });
     });
 

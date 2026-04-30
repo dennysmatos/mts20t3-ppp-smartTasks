@@ -28,7 +28,9 @@ function validateTaskQuery(request, _response, next) {
     status.trim() &&
     !allowedStatus.includes(status.trim())
   ) {
-    errors.push('o parâmetro status deve ser um dos seguintes: pending, in_progress, done');
+    errors.push(
+      'o parâmetro status deve ser um dos seguintes: pending, in_progress, done'
+    );
   }
 
   if (Object.hasOwn(request.query, 'search')) {
@@ -42,7 +44,9 @@ function validateTaskQuery(request, _response, next) {
       typeof sortBy !== 'string' ||
       !allowedSortFields.includes(sortBy.trim())
     ) {
-      errors.push('o parâmetro sortBy deve ser um dos seguintes: createdAt, updatedAt, title');
+      errors.push(
+        'o parâmetro sortBy deve ser um dos seguintes: createdAt, updatedAt, title'
+      );
     }
   }
 

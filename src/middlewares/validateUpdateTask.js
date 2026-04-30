@@ -21,7 +21,9 @@ function validateUpdateTask(request, _response, next) {
   }
 
   if (unknownFields.length > 0) {
-    errors.push(`campos desconhecidos não são permitidos: ${unknownFields.join(', ')}`);
+    errors.push(
+      `campos desconhecidos não são permitidos: ${unknownFields.join(', ')}`
+    );
   }
 
   if (Object.hasOwn(request.body, 'title')) {
@@ -40,7 +42,9 @@ function validateUpdateTask(request, _response, next) {
     if (typeof status !== 'string' || !status.trim()) {
       errors.push('status não pode ser vazio');
     } else if (!allowedStatus.includes(status)) {
-      errors.push('status deve ser um dos seguintes: pending, in_progress, done');
+      errors.push(
+        'status deve ser um dos seguintes: pending, in_progress, done'
+      );
     }
   }
 

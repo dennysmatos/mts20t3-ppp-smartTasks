@@ -9,7 +9,9 @@ function validateCreateTask(request, _response, next) {
   const unknownFields = getUnknownFields(request.body, allowedFields);
 
   if (unknownFields.length > 0) {
-    errors.push(`campos desconhecidos não são permitidos: ${unknownFields.join(', ')}`);
+    errors.push(
+      `campos desconhecidos não são permitidos: ${unknownFields.join(', ')}`
+    );
   }
 
   if (!title || typeof title !== 'string' || !title.trim()) {

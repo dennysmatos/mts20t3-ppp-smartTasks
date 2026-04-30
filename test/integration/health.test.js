@@ -4,12 +4,12 @@ import { expect } from 'chai';
 import app from '../../src/app.js';
 
 describe('GET /health', () => {
-  it('should return API status', async () => {
+  it('deve retornar o status da API', async () => {
     const response = await request(app).get('/health');
 
     expect(response.status).to.equal(200);
     expect(response.body).to.deep.equal({
-      message: 'API is running',
+      message: 'API em execução',
       data: {
         status: 'ok',
       },

@@ -10,7 +10,7 @@ describe('GET /users/me', () => {
     await resetDataFiles();
   });
 
-  it('should return the authenticated user profile', async () => {
+  it('deve retornar o perfil do usuário autenticado', async () => {
     const { token, user } = await createUserAndGetToken();
 
     const response = await request(app)
@@ -19,7 +19,7 @@ describe('GET /users/me', () => {
 
     expect(response.status).to.equal(200);
     expect(response.body.message).to.equal(
-      'Authenticated user retrieved successfully'
+      'Usuário autenticado retornado com sucesso'
     );
     expect(response.body.data).to.include({
       name: user.name,
@@ -31,24 +31,24 @@ describe('GET /users/me', () => {
     expect(response.body.data).to.not.have.property('password');
   });
 
-  it('should return unauthorized when token is missing', async () => {
+  it('deve retornar não autorizado quando o token está ausente', async () => {
     const response = await request(app).get('/users/me');
 
     expect(response.status).to.equal(401);
     expect(response.body).to.deep.equal({
-      message: 'Authentication token is required',
+      message: 'Token de autenticação é obrigatório',
       errors: [],
     });
   });
 
-  it('should return unauthorized when token is invalid', async () => {
+  it('deve retornar não autorizado quando o token é inválido', async () => {
     const response = await request(app)
       .get('/users/me')
       .set('Authorization', 'Bearer invalid-token');
 
     expect(response.status).to.equal(401);
     expect(response.body).to.deep.equal({
-      message: 'Invalid authentication token',
+      message: 'Token de autenticação inválido',
       errors: [],
     });
   });

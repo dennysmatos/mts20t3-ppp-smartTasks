@@ -15,8 +15,8 @@ router.use(authMiddleware);
  * /tasks:
  *   post:
  *     tags:
- *       - Tasks
- *     summary: Create a new task for the authenticated user
+ *       - Tarefas
+ *     summary: Criar uma nova tarefa para o usuário autenticado
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -27,27 +27,27 @@ router.use(authMiddleware);
  *             $ref: '#/components/schemas/TaskRequest'
  *     responses:
  *       201:
- *         description: Task created successfully
+ *         description: Tarefa criada com sucesso
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/TaskResponse'
  *       400:
- *         description: Validation error
+ *         description: Erro de validação
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  *       401:
- *         description: Authentication failed
+ *         description: Falha de autenticação
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  *   get:
  *     tags:
- *       - Tasks
- *     summary: List tasks from the authenticated user
+ *       - Tarefas
+ *     summary: Listar tarefas do usuário autenticado
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -56,52 +56,52 @@ router.use(authMiddleware);
  *         schema:
  *           type: string
  *           enum: [pending, in_progress, done]
- *         description: Filter tasks by status
+ *         description: Filtrar tarefas por status
  *       - in: query
  *         name: search
  *         schema:
  *           type: string
- *         description: Search by title or description
+ *         description: Buscar por título ou descrição
  *       - in: query
  *         name: sortBy
  *         schema:
  *           type: string
  *           enum: [createdAt, updatedAt, title]
- *         description: Field used for sorting
+ *         description: Campo utilizado para ordenação
  *       - in: query
  *         name: order
  *         schema:
  *           type: string
  *           enum: [asc, desc]
- *         description: Sort direction
+ *         description: Direção da ordenação
  *       - in: query
  *         name: page
  *         schema:
  *           type: integer
  *           minimum: 1
- *         description: Page number
+ *         description: Número da página
  *       - in: query
  *         name: limit
  *         schema:
  *           type: integer
  *           minimum: 1
  *           maximum: 100
- *         description: Number of items per page
+ *         description: Número de itens por página
  *     responses:
  *       200:
- *         description: Tasks retrieved successfully
+ *         description: Tarefas retornadas com sucesso
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/TaskListResponse'
  *       401:
- *         description: Authentication failed
+ *         description: Falha de autenticação
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  *       400:
- *         description: Validation error
+ *         description: Erro de validação
  *         content:
  *           application/json:
  *             schema:
@@ -114,8 +114,8 @@ router.get('/', validateTaskQuery, taskController.list);
  * /tasks/{id}:
  *   get:
  *     tags:
- *       - Tasks
- *     summary: Get a task by id
+ *       - Tarefas
+ *     summary: Buscar uma tarefa pelo ID
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -126,27 +126,27 @@ router.get('/', validateTaskQuery, taskController.list);
  *           type: string
  *     responses:
  *       200:
- *         description: Task retrieved successfully
+ *         description: Tarefa retornada com sucesso
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/TaskResponse'
  *       401:
- *         description: Authentication failed
+ *         description: Falha de autenticação
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  *       404:
- *         description: Task not found
+ *         description: Tarefa não encontrada
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  *   patch:
  *     tags:
- *       - Tasks
- *     summary: Partially update a task
+ *       - Tarefas
+ *     summary: Atualizar parcialmente uma tarefa
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -163,33 +163,33 @@ router.get('/', validateTaskQuery, taskController.list);
  *             $ref: '#/components/schemas/UpdateTaskRequest'
  *     responses:
  *       200:
- *         description: Task updated successfully
+ *         description: Tarefa atualizada com sucesso
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/TaskResponse'
  *       400:
- *         description: Validation error
+ *         description: Erro de validação
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  *       401:
- *         description: Authentication failed
+ *         description: Falha de autenticação
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  *       404:
- *         description: Task not found
+ *         description: Tarefa não encontrada
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  *   delete:
  *     tags:
- *       - Tasks
- *     summary: Delete a task
+ *       - Tarefas
+ *     summary: Excluir uma tarefa
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -200,15 +200,15 @@ router.get('/', validateTaskQuery, taskController.list);
  *           type: string
  *     responses:
  *       204:
- *         description: Task deleted successfully
+ *         description: Tarefa excluída com sucesso
  *       401:
- *         description: Authentication failed
+ *         description: Falha de autenticação
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  *       404:
- *         description: Task not found
+ *         description: Tarefa não encontrada
  *         content:
  *           application/json:
  *             schema:

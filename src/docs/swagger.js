@@ -8,9 +8,10 @@ const options = {
   definition: {
     openapi: '3.0.3',
     info: {
-      title: 'Task Manager API',
+      title: 'API de Gerenciamento de Tarefas',
       version: '1.0.0',
-      description: 'REST API for task management with JWT authentication.',
+      description:
+        'API REST para gerenciamento de tarefas com autenticação JWT.',
       contact: {
         name: 'Dennys Matos',
       },
@@ -18,25 +19,25 @@ const options = {
     servers: [
       {
         url: 'http://localhost:3000',
-        description: 'Local environment',
+        description: 'Ambiente local',
       },
     ],
     tags: [
       {
         name: 'Health',
-        description: 'API availability',
+        description: 'Disponibilidade da API',
       },
       {
-        name: 'Users',
-        description: 'User registration',
+        name: 'Usuários',
+        description: 'Cadastro de usuários',
       },
       {
-        name: 'Authentication',
-        description: 'Login and token issuance',
+        name: 'Autenticação',
+        description: 'Login e emissão de token',
       },
       {
-        name: 'Tasks',
-        description: 'Protected task management endpoints',
+        name: 'Tarefas',
+        description: 'Endpoints protegidos de gerenciamento de tarefas',
       },
     ],
     components: {
@@ -53,14 +54,14 @@ const options = {
           properties: {
             message: {
               type: 'string',
-              example: 'Validation error',
+              example: 'Erro de validação',
             },
             errors: {
               type: 'array',
               items: {
                 type: 'string',
               },
-              example: ['email is required'],
+              example: ['email é obrigatório'],
             },
           },
         },
@@ -69,7 +70,7 @@ const options = {
           properties: {
             message: {
               type: 'string',
-              example: 'API is running',
+              example: 'API em execução',
             },
             data: {
               type: 'object',
@@ -133,7 +134,7 @@ const options = {
           properties: {
             message: {
               type: 'string',
-              example: 'User created successfully',
+              example: 'Usuário criado com sucesso',
             },
             data: {
               $ref: '#/components/schemas/UserResponseData',
@@ -160,7 +161,7 @@ const options = {
           properties: {
             message: {
               type: 'string',
-              example: 'Login successful',
+              example: 'Login realizado com sucesso',
             },
             data: {
               type: 'object',
@@ -179,11 +180,11 @@ const options = {
           properties: {
             title: {
               type: 'string',
-              example: 'Study API testing',
+              example: 'Estudar testes de API',
             },
             description: {
               type: 'string',
-              example: 'Practice integration tests with Supertest',
+              example: 'Praticar testes de integração com Supertest',
             },
             status: {
               type: 'string',
@@ -197,11 +198,11 @@ const options = {
           properties: {
             title: {
               type: 'string',
-              example: 'Study mocks',
+              example: 'Estudar mocks',
             },
             description: {
               type: 'string',
-              example: 'Review test doubles',
+              example: 'Revisar test doubles',
             },
             status: {
               type: 'string',
@@ -246,7 +247,7 @@ const options = {
           properties: {
             message: {
               type: 'string',
-              example: 'Task created successfully',
+              example: 'Tarefa criada com sucesso',
             },
             data: {
               $ref: '#/components/schemas/TaskResponseData',
@@ -258,7 +259,7 @@ const options = {
           properties: {
             message: {
               type: 'string',
-              example: 'Tasks retrieved successfully',
+              example: 'Tarefas retornadas com sucesso',
             },
             data: {
               type: 'array',

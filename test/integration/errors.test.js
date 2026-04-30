@@ -3,18 +3,18 @@ import { expect } from 'chai';
 
 import app from '../../src/app.js';
 
-describe('Error handling', () => {
-  it('should return not found for an unknown route', async () => {
+describe('Tratamento de erros', () => {
+  it('deve retornar não encontrado para uma rota desconhecida', async () => {
     const response = await request(app).get('/unknown-route');
 
     expect(response.status).to.equal(404);
     expect(response.body).to.deep.equal({
-      message: 'Route GET /unknown-route not found',
+      message: 'Rota GET /unknown-route não encontrada',
       errors: [],
     });
   });
 
-  it('should return bad request for malformed JSON payload', async () => {
+  it('deve retornar bad request para payload JSON malformado', async () => {
     const response = await request(app)
       .post('/users')
       .set('Content-Type', 'application/json')
@@ -22,7 +22,7 @@ describe('Error handling', () => {
 
     expect(response.status).to.equal(400);
     expect(response.body).to.deep.equal({
-      message: 'Malformed JSON payload',
+      message: 'Payload JSON malformado',
       errors: [],
     });
   });

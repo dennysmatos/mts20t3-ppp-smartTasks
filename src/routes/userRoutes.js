@@ -11,8 +11,8 @@ const router = express.Router();
  * /users:
  *   post:
  *     tags:
- *       - Users
- *     summary: Create a new user
+ *       - Usuários
+ *     summary: Criar um novo usuário
  *     requestBody:
  *       required: true
  *       content:
@@ -21,19 +21,19 @@ const router = express.Router();
  *             $ref: '#/components/schemas/CreateUserRequest'
  *     responses:
  *       201:
- *         description: User created successfully
+ *         description: Usuário criado com sucesso
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/UserCreatedResponse'
  *       400:
- *         description: Validation error
+ *         description: Erro de validação
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  *       409:
- *         description: Email already registered
+ *         description: E-mail já cadastrado
  *         content:
  *           application/json:
  *             schema:
@@ -46,25 +46,25 @@ router.post('/', validateCreateUser, userController.create);
  * /users/me:
  *   get:
  *     tags:
- *       - Users
- *     summary: Retrieve the authenticated user profile
+ *       - Usuários
+ *     summary: Retornar o perfil do usuário autenticado
  *     security:
  *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: Authenticated user retrieved successfully
+ *         description: Usuário autenticado retornado com sucesso
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/UserCreatedResponse'
  *       401:
- *         description: Authentication failed
+ *         description: Falha de autenticação
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  *       404:
- *         description: User not found
+ *         description: Usuário não encontrado
  *         content:
  *           application/json:
  *             schema:

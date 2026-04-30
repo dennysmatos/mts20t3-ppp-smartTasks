@@ -10,8 +10,8 @@ const router = express.Router();
  * /auth/login:
  *   post:
  *     tags:
- *       - Authentication
- *     summary: Authenticate a user and return a JWT
+ *       - Autenticação
+ *     summary: Autenticar um usuário e retornar um JWT
  *     requestBody:
  *       required: true
  *       content:
@@ -20,19 +20,19 @@ const router = express.Router();
  *             $ref: '#/components/schemas/LoginRequest'
  *     responses:
  *       200:
- *         description: Login successful
+ *         description: Login realizado com sucesso
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/LoginResponse'
  *       400:
- *         description: Validation error
+ *         description: Erro de validação
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  *       401:
- *         description: Invalid credentials
+ *         description: Credenciais inválidas
  *         content:
  *           application/json:
  *             schema:

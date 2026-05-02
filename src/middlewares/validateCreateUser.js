@@ -17,7 +17,6 @@ function validateCreateUser(request, _response, next) {
     );
   }
 
-
   if (!name || typeof name !== 'string' || !name.trim()) {
     errors.push('nome é obrigatório');
   }

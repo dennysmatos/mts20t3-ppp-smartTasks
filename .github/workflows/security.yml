@@ -1,4 +1,4 @@
-name: Security Checks
+name: Verificações de Segurança
 
 on:
   push:
@@ -6,50 +6,54 @@ on:
   pull_request:
     branches: [main]
   schedule:
-    - cron: '0 0 * * 0' # Weekly on Sunday
+    - cron: '0 0 * * 0' # Semanalmente aos domingos
 
 permissions:
   contents: read
   security-events: write
 
 jobs:
-  security:
-    name: Security Audit
+  seguranca:
+    name: Auditoria de Segurança
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - name: Checkout code
+      - name: Baixar o código
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
           cache: 'npm'
 
-      - name: Install dependencies
+      - name: Instalar dependências
         run: npm ci
 
-      - name: Run npm audit
+      - name: Executar auditoria npm
         run: npm audit --audit-level=critical || true
 
-      - name: Run npm audit (strict mode)
+      - name: Executar auditoria npm (modo restrito)
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: npm audit --audit-level=critical # O pipeline só vai travar se for algo REALMENTE perigoso
 
-      - name: Check for vulnerable dependencies with npm audit
+      - name: Verificar dependências vulneráveis
         run: |
           npm audit --json > audit.json || true
           cat audit.json
 
-  dependency-check:
-    name: Dependency Review
+  revisao-dependencias:
+    name: Revisão de Dependências
     runs-on: ubuntu-latest
     timeout-minutes: 10
     if: github.event_name == 'pull_request'
     steps:
-      - name: Checkout code
+      - name: Baixar o código
         uses: actions/checkout@v4
 
-      - name: Dependency review
+      - name: Revisar dependências
+        # Requer Dependency Graph habilitado nas configurações do repositório.
+        # continue-on-error no step garante que o job não falhe quando o
+        # recurso não está disponível.
+        continue-on-error: true
         uses: actions/dependency-review-action@v4

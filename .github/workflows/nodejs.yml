@@ -1,4 +1,4 @@
-name: Node.js CI
+name: Integração Contínua Node.js
 
 on:
   push:
@@ -12,86 +12,86 @@ permissions:
 
 jobs:
   lint:
-    name: Lint and Format Check
+    name: Verificação de Lint e Formatação
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Checkout code
+      - name: Baixar o código
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
           cache: 'npm'
 
-      - name: Install dependencies
+      - name: Instalar dependências
         run: npm ci
 
-      - name: Run ESLint
+      - name: Executar ESLint
         run: npm run lint
 
-      - name: Check code formatting with Prettier
+      - name: Verificar formatação com Prettier
         run: npm run prettier
 
   test:
-    name: Test Suite
+    name: Suite de Testes
     runs-on: ubuntu-latest
     timeout-minutes: 30
     needs: lint
     steps:
-      - name: Checkout code
+      - name: Baixar o código
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
           cache: 'npm'
 
-      - name: Install dependencies
+      - name: Instalar dependências
         run: npm ci
 
-      - name: Run unit tests with coverage
+      - name: Executar testes com cobertura
         run: npm run coverage
 
-      - name: Upload coverage reports
+      - name: Publicar relatório de cobertura
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-report
+          name: relatorio-cobertura
           path: coverage
           retention-days: 30
 
-      - name: Upload Jest JUnit XML
+      - name: Publicar resultados JUnit XML
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: junit-test-results
+          name: resultados-testes-junit
           path: junit.xml
           retention-days: 30
 
-      - name: Run functional tests
+      - name: Executar testes funcionais
         run: npm run test:functional
 
-      - name: Upload Mocha test results
+      - name: Publicar resultados dos testes Mocha
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: mocha-test-results
+          name: resultados-testes-mocha
           path: reports/mocha
           retention-days: 30
 
-      - name: Comment PR with test results
+      - name: Comentar no PR com resultados dos testes
         if: github.event_name == 'pull_request' && always()
         uses: actions/github-script@v7
         with:
           script: |
             const fs = require('fs');
-            const testResults = fs.existsSync('./junit.xml') ? '✅ Unit tests passed' : '❌ Unit tests failed';
+            const testResults = fs.existsSync('./junit.xml') ? '✅ Testes unitários passaram' : '❌ Testes unitários falharam';
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `## Test Results\n${testResults}`
+              body: `## Resultados dos Testes\n${testResults}`
             })

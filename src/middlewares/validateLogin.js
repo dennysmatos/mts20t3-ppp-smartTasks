@@ -1,6 +1,10 @@
 import AppError from '../utils/AppError.js';
 
 function validateLogin(request, _response, next) {
+  if (!request.body || typeof request.body !== 'object') {
+    return next(new AppError('Payload JSON malformado', 400, []));
+  }
+
   const { email, password } = request.body;
   const errors = [];
 

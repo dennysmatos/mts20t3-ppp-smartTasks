@@ -46,12 +46,14 @@ jobs:
     name: Revisão de Dependências
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    # Requer Dependency Graph habilitado nas configurações do repositório
-    continue-on-error: true
     if: github.event_name == 'pull_request'
     steps:
       - name: Baixar o código
         uses: actions/checkout@v4
 
       - name: Revisar dependências
+        # Requer Dependency Graph habilitado nas configurações do repositório.
+        # continue-on-error no step garante que o job não falhe quando o
+        # recurso não está disponível.
+        continue-on-error: true
         uses: actions/dependency-review-action@v4

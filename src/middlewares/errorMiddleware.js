@@ -6,13 +6,16 @@ function errorMiddleware(error, _request, response, _next) {
     });
   }
 
-  const statusCode = error.statusCode || 500;
-  const message = error.message || 'Erro interno do servidor';
-  const errors = error.errors || [];
+  if (error.name === 'AppError') {
+    return response.status(error.statusCode).json({
+      message: error.message,
+      errors: error.errors,
+    });
+  }
 
-  return response.status(statusCode).json({
-    message,
-    errors,
+  return response.status(500).json({
+    message: 'Erro interno do servidor',
+    errors: [],
   });
 }
 

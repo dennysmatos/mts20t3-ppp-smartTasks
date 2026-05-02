@@ -3,6 +3,10 @@ import { allowedStatus } from '../services/taskService.js';
 import { getUnknownFields } from '../utils/validationHelper.js';
 
 function validateCreateTask(request, _response, next) {
+  if (!request.body || typeof request.body !== 'object') {
+    return next(new AppError('Payload JSON malformado', 400, []));
+  }
+
   const { title, description, status } = request.body;
   const errors = [];
   const allowedFields = ['title', 'description', 'status'];

@@ -102,7 +102,9 @@ describe('POST /users', () => {
     expect(response.status).to.equal(400);
     expect(response.body.message).to.equal('Erro de validação');
     expect(response.body.errors).to.have.lengthOf(1);
-    expect(response.body.errors[0]).to.include('campos desconhecidos não são permitidos');
+    expect(response.body.errors[0]).to.include(
+      'campos desconhecidos não são permitidos'
+    );
     expect(response.body.errors[0]).to.include('role');
     expect(response.body.errors[0]).to.include('isAdmin');
   });

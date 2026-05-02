@@ -1,8 +1,18 @@
 import AppError from '../utils/AppError.js';
+import { getUnknownFields } from '../utils/validationHelper.js';
 
 function validateCreateUser(request, _response, next) {
   const { name, email, password } = request.body;
   const errors = [];
+  const allowedFields = ['name', 'email', 'password'];
+  const unknownFields = getUnknownFields(request.body, allowedFields);
+
+  if (unknownFields.length > 0) {
+    errors.push(
+      `campos desconhecidos não são permitidos: ${unknownFields.join(', ')}`
+    );
+  }
+
 
   if (!name || typeof name !== 'string' || !name.trim()) {
     errors.push('nome é obrigatório');

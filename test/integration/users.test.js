@@ -74,4 +74,36 @@ describe('POST /users', () => {
       errors: ['a senha deve ter pelo menos 6 caracteres'],
     });
   });
+
+  it('deve retornar erro de validação quando o payload contém campos desconhecidos', async () => {
+    const response = await request(app).post('/users').send({
+      name: 'Maria Silva',
+      email: 'maria@email.com',
+      password: '123456',
+      role: 'admin',
+    });
+
+    expect(response.status).to.equal(400);
+    expect(response.body).to.deep.equal({
+      message: 'Erro de validação',
+      errors: ['campos desconhecidos não são permitidos: role'],
+    });
+  });
+
+  it('deve retornar erro de validação quando múltiplos campos desconhecidos são enviados', async () => {
+    const response = await request(app).post('/users').send({
+      name: 'Maria Silva',
+      email: 'maria@email.com',
+      password: '123456',
+      role: 'admin',
+      isAdmin: true,
+    });
+
+    expect(response.status).to.equal(400);
+    expect(response.body.message).to.equal('Erro de validação');
+    expect(response.body.errors).to.have.lengthOf(1);
+    expect(response.body.errors[0]).to.include('campos desconhecidos não são permitidos');
+    expect(response.body.errors[0]).to.include('role');
+    expect(response.body.errors[0]).to.include('isAdmin');
+  });
 });

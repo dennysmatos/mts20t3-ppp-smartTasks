@@ -59,13 +59,14 @@ Os relatórios gerados são salvos em `relatorios/` (pasta ignorada pelo git).
 
 Verifica que todos os endpoints respondem corretamente com carga mínima.
 
-| Configuração | Valor |
-|---|---|
-| VUs | 1 |
-| Duração | 1 minuto |
-| Thresholds | P95 < 2000ms, erros < 1%, checks > 99% |
+| Configuração | Valor                                  |
+| ------------ | -------------------------------------- |
+| VUs          | 1                                      |
+| Duração      | 1 minuto                               |
+| Thresholds   | P95 < 2000ms, erros < 1%, checks > 99% |
 
 **Fluxo testado (por iteração):**
+
 1. `GET /health`
 2. `POST /users` — criar usuário único
 3. `POST /auth/login` — autenticar
@@ -78,6 +79,7 @@ Verifica que todos os endpoints respondem corretamente com carga mínima.
 10. `DELETE /tasks/:id` — excluir
 
 **Execução:**
+
 ```bash
 npm run test:performance
 # ou diretamente:
@@ -90,17 +92,18 @@ k6 run test/performance/cenarios/smoke.js
 
 Simula uso concorrente normal com múltiplos usuários realizando operações CRUD completas.
 
-| Configuração | Valor |
-|---|---|
-| Estágio 1 | 0→5 VUs em 30s |
-| Estágio 2 | 5 VUs por 1 minuto |
-| Estágio 3 | 5→10 VUs em 30s |
-| Estágio 4 | 10 VUs por 2 minutos |
-| Estágio 5 | 10→0 VUs em 30s |
-| **Total** | **~4 minutos e 30 segundos** |
-| Thresholds | P95 < 1500ms, P99 < 3000ms, erros < 5% |
+| Configuração | Valor                                  |
+| ------------ | -------------------------------------- |
+| Estágio 1    | 0→5 VUs em 30s                         |
+| Estágio 2    | 5 VUs por 1 minuto                     |
+| Estágio 3    | 5→10 VUs em 30s                        |
+| Estágio 4    | 10 VUs por 2 minutos                   |
+| Estágio 5    | 10→0 VUs em 30s                        |
+| **Total**    | **~4 minutos e 30 segundos**           |
+| Thresholds   | P95 < 1500ms, P99 < 3000ms, erros < 5% |
 
 **Jornada do usuário:**
+
 - Criar conta e autenticar (cada VU usa e-mail único)
 - Carregar perfil
 - Criar 3 tarefas com conteúdo realista
@@ -110,6 +113,7 @@ Simula uso concorrente normal com múltiplos usuários realizando operações CR
 - Concluir e excluir todas as tarefas criadas
 
 **Execução:**
+
 ```bash
 npm run test:performance:carga
 ```
@@ -120,17 +124,18 @@ npm run test:performance:carga
 
 Aumenta a carga progressivamente para identificar o ponto de degradação da API.
 
-| Configuração | Valor |
-|---|---|
-| Estágios | 0→10→20→30→40→50 VUs (1 min cada) |
-| Pico | 50 VUs por 2 minutos |
-| Recuperação | 50→0 VUs em 1 minuto |
-| **Total** | **~9 minutos** |
-| Thresholds | P95 < 5000ms, erros < 30% (permissivos — objetivo é observar degradação) |
+| Configuração | Valor                                                                    |
+| ------------ | ------------------------------------------------------------------------ |
+| Estágios     | 0→10→20→30→40→50 VUs (1 min cada)                                        |
+| Pico         | 50 VUs por 2 minutos                                                     |
+| Recuperação  | 50→0 VUs em 1 minuto                                                     |
+| **Total**    | **~9 minutos**                                                           |
+| Thresholds   | P95 < 5000ms, erros < 30% (permissivos — objetivo é observar degradação) |
 
 > **Atenção:** Este teste esgota propositalmente a capacidade da API. Espera-se aumento progressivo na taxa de erros à medida que os VUs crescem. A API usa persistência em arquivo JSON, tornando-a especialmente sensível a escritas concorrentes. **Nunca execute em ambiente de produção.**
 
 **Execução:**
+
 ```bash
 npm run test:performance:estresse
 ```
@@ -155,28 +160,28 @@ npm run test:performance:estresse # estresse
 
 Após cada execução, os arquivos são gerados em `relatorios/`:
 
-| Arquivo | Descrição |
-|---|---|
-| `smoke.html` | Relatório HTML interativo do smoke test |
-| `smoke.json` | Dados brutos em JSON para automação |
-| `carga.html` | Relatório HTML do teste de carga |
-| `carga.json` | Dados brutos do teste de carga |
-| `estresse.html` | Relatório HTML do teste de estresse |
-| `estresse.json` | Dados brutos do teste de estresse |
+| Arquivo         | Descrição                               |
+| --------------- | --------------------------------------- |
+| `smoke.html`    | Relatório HTML interativo do smoke test |
+| `smoke.json`    | Dados brutos em JSON para automação     |
+| `carga.html`    | Relatório HTML do teste de carga        |
+| `carga.json`    | Dados brutos do teste de carga          |
+| `estresse.html` | Relatório HTML do teste de estresse     |
+| `estresse.json` | Dados brutos do teste de estresse       |
 
 ### Métricas Monitoradas
 
-| Métrica K6 | Descrição |
-|---|---|
+| Métrica K6          | Descrição                                                       |
+| ------------------- | --------------------------------------------------------------- |
 | `http_req_duration` | Duração total da requisição (min, avg, med, P90, P95, P99, max) |
-| `http_req_failed` | Taxa de requisições com status ≥ 400 |
-| `http_reqs` | Total e taxa de requisições por segundo |
-| `checks` | Taxa de sucesso das verificações customizadas |
-| `taxa_erros` | Métrica customizada: falhas de fluxo de negócio |
-| `duracao_login_ms` | Trend customizado: duração específica do login |
-| `duracao_crud_ms` | Trend customizado: duração completa do fluxo CRUD |
-| `tarefas_criadas` | Contador de tarefas criadas com sucesso |
-| `usuarios_criados` | Contador de usuários criados com sucesso |
+| `http_req_failed`   | Taxa de requisições com status ≥ 400                            |
+| `http_reqs`         | Total e taxa de requisições por segundo                         |
+| `checks`            | Taxa de sucesso das verificações customizadas                   |
+| `taxa_erros`        | Métrica customizada: falhas de fluxo de negócio                 |
+| `duracao_login_ms`  | Trend customizado: duração específica do login                  |
+| `duracao_crud_ms`   | Trend customizado: duração completa do fluxo CRUD               |
+| `tarefas_criadas`   | Contador de tarefas criadas com sucesso                         |
+| `usuarios_criados`  | Contador de usuários criados com sucesso                        |
 
 ---
 
@@ -184,13 +189,14 @@ Após cada execução, os arquivos são gerados em `relatorios/`:
 
 O workflow `.github/workflows/performance.yml` executa os testes de performance com as seguintes regras:
 
-| Gatilho | Cenário executado |
-|---|---|
-| `pull_request` para `main` | Smoke test (sempre) |
-| `schedule` (toda segunda, 3h UTC) | Smoke + Carga |
-| `workflow_dispatch` | Configurável (smoke / carga / estresse / todos) |
+| Gatilho                           | Cenário executado                               |
+| --------------------------------- | ----------------------------------------------- |
+| `pull_request` para `main`        | Smoke test (sempre)                             |
+| `schedule` (toda segunda, 3h UTC) | Smoke + Carga                                   |
+| `workflow_dispatch`               | Configurável (smoke / carga / estresse / todos) |
 
 **Para disparar manualmente no GitHub:**
+
 1. Acesse **Actions → Testes de Performance K6**
 2. Clique em **Run workflow**
 3. Selecione o cenário desejado
@@ -205,15 +211,15 @@ Resultados obtidos na máquina de desenvolvimento com persistência em arquivo J
 
 ### Smoke Test (2026-05-03)
 
-| Métrica | Valor |
-|---|---|
-| Total de Requisições | 120 |
-| Taxa de Requisições | 1.86/s |
-| Duração Média | 26.36ms |
-| P95 Duração | 92ms |
-| P90 Duração | 85.73ms |
-| Taxa de Erros | 0% |
-| Checks com Sucesso | 228/228 (100%) |
+| Métrica              | Valor          |
+| -------------------- | -------------- |
+| Total de Requisições | 120            |
+| Taxa de Requisições  | 1.86/s         |
+| Duração Média        | 26.36ms        |
+| P95 Duração          | 92ms           |
+| P90 Duração          | 85.73ms        |
+| Taxa de Erros        | 0%             |
+| Checks com Sucesso   | 228/228 (100%) |
 
 > Todos os thresholds foram atendidos com ampla margem.
 
@@ -234,11 +240,12 @@ echo '[]' > src/data/tasks.json
 
 ## Variáveis de Ambiente
 
-| Variável | Padrão | Descrição |
-|---|---|---|
+| Variável   | Padrão                  | Descrição       |
+| ---------- | ----------------------- | --------------- |
 | `BASE_URL` | `http://localhost:3000` | URL base da API |
 
 Exemplo com URL customizada:
+
 ```bash
 k6 run -e BASE_URL=http://staging.api.com:3000 test/performance/cenarios/smoke.js
 ```

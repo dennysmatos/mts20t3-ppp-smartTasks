@@ -32,6 +32,9 @@ logs
 *.sln
 *.sw?
 
+# Relatórios de performance K6
+relatorios/
+
 # Sistema
 .DS_Store
 Thumbs.db

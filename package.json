@@ -12,7 +12,11 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "reports": "npm run coverage",
-    "prettier": "prettier --check ."
+    "prettier": "prettier --check .",
+    "test:performance": "k6 run test/performance/cenarios/smoke.js",
+    "test:performance:carga": "k6 run test/performance/cenarios/carga.js",
+    "test:performance:estresse": "k6 run test/performance/cenarios/estresse.js",
+    "test:performance:todos": "npm run test:performance && npm run test:performance:carga"
   },
   "keywords": [
     "qa",

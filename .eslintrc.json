@@ -55,6 +55,18 @@
       "rules": {
         "no-unused-expressions": "off"
       }
+    },
+    {
+      "files": ["test/performance/**/*.js"],
+      "globals": {
+        "__ENV": "readonly",
+        "__VU": "readonly",
+        "__ITER": "readonly",
+        "__FILENAME": "readonly"
+      },
+      "rules": {
+        "no-unused-expressions": "off"
+      }
     }
   ]
 }

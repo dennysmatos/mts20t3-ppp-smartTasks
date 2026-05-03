@@ -35,6 +35,9 @@ logs
 # Relatórios de performance K6
 relatorios/
 
+# Configurações locais do Claude Code
+.claude/
+
 # Sistema
 .DS_Store
 Thumbs.db
